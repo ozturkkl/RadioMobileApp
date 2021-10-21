@@ -2,10 +2,9 @@ import React from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import TopBar from '../components/TopBar'
 import radio from "../helpers/importRadioOptions"
+import navigationProps from "../helpers/navigationProps"
 
-interface props {
-    navigation?: any
-}
+interface props extends navigationProps{}
 
 export default function MainPage({ navigation }: props) {
     return (
