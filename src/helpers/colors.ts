@@ -7,4 +7,5 @@ export default {
     
     albumCoverBorder: "#444",
     linksBackground: "#ffffff22",
+    playButtonBackground: "#ffffff0a",
 }
