@@ -1,8 +1,9 @@
 import React from 'react'
 import { Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
-import radio from "../helpers/importRadioOptions"
+import radio from "../helpers/radioOptions"
 import navigationProps from "../helpers/navigationProps"
+import color from "../helpers/colors"
 
 interface props extends navigationProps {
     settings?: boolean
@@ -12,11 +13,11 @@ export default function TopBar({ navigation, settings }: props) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.logoContainer}>
+            <View style={[styles.logoContainer, styles.shadow]}>
                 <Image source={radio.RADIO_ICON} style={styles.logo} />
             </View>
 
-            <Text style={styles.header}>{radio.RADIO_NAME}</Text>
+            <Text style={[styles.header, styles.textShadow]}>{radio.RADIO_NAME}</Text>
 
             <TouchableOpacity
                 onPress={() => {
@@ -24,8 +25,6 @@ export default function TopBar({ navigation, settings }: props) {
                         navigation.navigate('Home')
                     else
                         navigation.navigate('Settings')
-
-                    console.log("kemal")
                 }}>
 
                 <Icon name={settings ? "home" : "settings"} size={40} style={styles.settingsIcon} />
@@ -48,6 +47,20 @@ const styles = StyleSheet.create({
     },
     logoContainer: {
         marginLeft: 15,
+        borderRadius: 100,
+    },
+    header: {
+        flex: 1,
+        textAlign: "center",
+        fontSize: 25,
+        fontWeight: "400",
+        color: color.mainText,
+    },
+    settingsIcon: {
+        marginRight: 15,
+        color: color.mainText,
+    },
+    shadow: {
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -57,23 +70,13 @@ const styles = StyleSheet.create({
         shadowRadius: 6.27,
 
         elevation: 10,
-        borderRadius: 100,
     },
-    header: {
-        flex: 1,
-        textAlign: "center",
-        fontSize: 25,
-        fontWeight: "400",
+    textShadow: {
         textShadowColor: "black",
         textShadowOffset: {
             width: 0,
             height: 0,
         },
         textShadowRadius: 20,
-        color: "#ddd"
     },
-    settingsIcon: {
-        marginRight: 15,
-        color: "#ddd",
-    }
 })

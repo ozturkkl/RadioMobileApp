@@ -60,7 +60,6 @@ buck-out/
 /ios/Pods/
 
 src/assets
-radioOptions.js
-.env
+radioOptions.ts
 
 .vscode

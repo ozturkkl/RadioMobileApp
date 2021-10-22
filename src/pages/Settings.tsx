@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import TopBar from '../components/TopBar'
-import radio from "../helpers/importRadioOptions"
+import radio from "../helpers/radioOptions"
 import navigationProps from '../helpers/navigationProps'
 
 interface props extends navigationProps {}
@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     main: {
         flex: 1,
         backgroundColor: "#00000077",
-        justifyContent: "space-between",
         alignItems: "center",
     }
 })
