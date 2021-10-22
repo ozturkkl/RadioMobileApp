@@ -2,8 +2,9 @@ import React from 'react'
 import { Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 import radio from "../helpers/radioOptions"
-import navigationProps from "../helpers/navigationProps"
 import color from "../helpers/colors"
+import {navigationProps} from "../helpers/navigationProps"
+import colors from '../helpers/colors';
 
 interface props extends navigationProps {
     settings?: boolean
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
         color: color.mainText,
     },
     shadow: {
-        shadowColor: "#000",
+        shadowColor: color.shadowColor,
         shadowOffset: {
             width: 0,
             height: 0,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     textShadow: {
-        textShadowColor: "black",
+        textShadowColor: colors.shadowColor,
         textShadowOffset: {
             width: 0,
             height: 0,

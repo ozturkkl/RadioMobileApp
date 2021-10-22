@@ -29,14 +29,13 @@ const styles = StyleSheet.create({
     albumCover: {
         width: 225,
         height: 225,
-        backgroundColor: "black",
         borderRadius: 10,
         borderColor: colors.albumCoverBorder,
         borderWidth: 3,
 
     },
     shadow: {
-        shadowColor: "#000",
+        shadowColor: colors.shadowColor,
         shadowOffset: {
             width: 0,
             height: 0,
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textShadow: {
-        textShadowColor: "black",
+        textShadowColor: colors.shadowColor,
         textShadowOffset: {
             width: 0,
             height: 0,
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 10,
     },
     trackArtist: {
-        marginTop: 25,
+        marginTop: 10,
         fontSize: 16,
     },
     trackName: {
