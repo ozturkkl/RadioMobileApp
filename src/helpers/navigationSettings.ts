@@ -13,5 +13,6 @@ export let navigationStyle = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.mainBackground,
         alignItems: "center",
+        color: colors.mainText,
     }
 })

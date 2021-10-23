@@ -14,7 +14,7 @@ export default function Settings({ navigation }: props) {
         <ImageBackground source={radio.BACKGROUND_IMG} resizeMode="cover" blurRadius={colors.backgroundBlur} style={{ flex: 1 }}>
             <View style={styles.main}>
                 <TopBar navigation={navigation} settings={true} />
-                <Text>Settings coming soon...</Text>
+                <Text style={{color: colors.mainText}}>Settings coming soon...</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}

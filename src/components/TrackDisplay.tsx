@@ -78,11 +78,13 @@ const styles = StyleSheet.create({
     trackArtist: {
         marginTop: 10,
         fontSize: 16,
+        color: colors.mainText,
     },
     trackName: {
         marginTop: 5,
         fontSize: 20,
         fontWeight: '500',
+        color: colors.mainText,
     },
 })
 

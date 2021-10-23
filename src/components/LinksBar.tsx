@@ -8,8 +8,8 @@ export default function LinksBar() {
     return (
         <View style={styles.linksContainer}>
             {radio.LINKS.map((link, idx) => (
-                <TouchableOpacity key={idx} onPress={link.click} style={styles.linkIconWrapper}>
-                    <Icon name={link.iconLabel} size={20} style={styles.linkIcon} />
+                <TouchableOpacity key={idx} onPress={link.click}>
+                    <Icon name={link.iconLabel} size={20} style={styles.linkIcon} color={colors.mainText} />
                 </TouchableOpacity>
             ))}
         </View>
@@ -23,10 +23,9 @@ const styles = StyleSheet.create({
         backgroundColor: colors.linksBackground,
         marginTop: 15,
     },
-    linkIconWrapper: {
-    },
     linkIcon: {
         paddingHorizontal: 15,
         paddingVertical: 7,
+        color: colors.mainText,
     },
 })

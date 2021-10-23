@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
 import TrackPlayer from 'react-native-track-player';
+import colors from '../helpers/colors';
 
 export default function VolumeControl() {
     const [volume, setVolume] = useState(1)
@@ -42,5 +43,6 @@ const styles = StyleSheet.create({
     },
     volumeIcon: {
         fontSize: 20,
+        color: colors.mainText,
     }
 })
