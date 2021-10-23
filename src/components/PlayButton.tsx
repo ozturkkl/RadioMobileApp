@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
         paddingRight: 11,
         borderRadius: 100,
         margin: 10,
+        color: colors.mainText,
     },
     pauseIcon: {
         fontSize: 40,
@@ -82,10 +83,12 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 100,
         margin: 10,
+        color: colors.mainText,
     },
     sideIcons: {
         fontSize: 25,
         padding: 15,
         paddingHorizontal: 20,
+        color: colors.mainText,
     },
 })
