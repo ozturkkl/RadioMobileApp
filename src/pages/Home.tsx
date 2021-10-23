@@ -6,6 +6,7 @@ import radio from "../helpers/radioOptions"
 import {navigationProps, navigationStyle} from "../helpers/navigationProps"
 import PlayButton from '../components/PlayButton'
 import colors from '../helpers/colors'
+import VolumeControl from '../components/VolumeControl'
 
 interface props extends navigationProps{}
 
@@ -15,6 +16,7 @@ export default function MainPage({ navigation }: props) {
             <View style={styles.main}>
                 <TopBar navigation={navigation}/>
                 <TrackDisplay />
+                <VolumeControl />
                 <PlayButton />
             </View>
         </ImageBackground>

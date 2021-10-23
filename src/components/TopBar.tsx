@@ -1,10 +1,11 @@
 import React from 'react'
-import { Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
+
 import radio from "../helpers/radioOptions"
-import color from "../helpers/colors"
 import {navigationProps} from "../helpers/navigationProps"
 import colors from '../helpers/colors';
+
 
 interface props extends navigationProps {
     settings?: boolean
@@ -55,14 +56,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 25,
         fontWeight: "400",
-        color: color.mainText,
+        color: colors.mainText,
     },
     settingsIcon: {
         marginRight: 15,
-        color: color.mainText,
+        color: colors.mainText,
     },
     shadow: {
-        shadowColor: color.shadowColor,
+        shadowColor: colors.shadowColor,
         shadowOffset: {
             width: 0,
             height: 0,

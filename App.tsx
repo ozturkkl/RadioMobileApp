@@ -7,7 +7,6 @@ import {
 import Home from './src/pages/Home';
 import Settings from './src/pages/Settings';
 
-
 const Stack = createNativeStackNavigator();
 
 const App = () => {
