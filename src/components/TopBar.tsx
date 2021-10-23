@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 
 import radio from "../helpers/radioOptions"
-import {navigationProps} from "../helpers/navigationProps"
+import {navigationProps} from "../helpers/navigationSettings"
 import colors from '../helpers/colors';
 
 
@@ -29,7 +29,7 @@ export default function TopBar({ navigation, settings }: props) {
                         navigation.navigate('Settings')
                 }}>
 
-                <Icon name={settings ? "home" : "settings"} size={40} style={styles.settingsIcon} />
+                <Icon name={settings ? "home" : "menu"} size={40} style={styles.settingsIcon} />
             </TouchableOpacity>
         </View>
     )
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 55,
         height: 55,
+        borderRadius: 1000,
     },
     logoContainer: {
         marginLeft: 15,

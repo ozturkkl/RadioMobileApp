@@ -10,16 +10,20 @@ import setupPlayer from '../helpers/setupPlayer';
 
 export default function PlayButton() {
     const [trackPlaying, setTrackPlaying] = useState(false)
+    const [loading, setLoading] = useState(false)
     useTrackPlayerEvents([Event.PlaybackState], async event => {
         if (event.state === State.Playing) setTrackPlaying(true)
         else setTrackPlaying(false)
+
+        if (event.state === State.Connecting || event.state === State.Buffering) setLoading(true)
+        else setLoading(false)
     });
     useEffect(() => {
         TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing))
     }, [])
     async function handlePlay() {
         const state = await TrackPlayer.getState();
-        if (state !== State.Playing && state !== State.Paused && state !== State.Stopped) {
+        if (state !== State.Playing && state !== State.Paused) {
             await setupPlayer()
         }
         if (state === State.Playing) {
@@ -42,7 +46,7 @@ export default function PlayButton() {
                 <Icon name="square" style={styles.sideIcons} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handlePlay} style={styles.buttonWrapper}>
-                <Icon name={trackPlaying ? "pause" : "play"} style={trackPlaying ? styles.pauseIcon : styles.playIcon} />
+                <Icon name={loading ? "loader" : trackPlaying ? "pause" : "play"} style={trackPlaying || loading ? styles.pauseIcon : styles.playIcon} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleReset} style={styles.buttonWrapper}>
                 <Icon name="rotate-ccw" style={styles.sideIcons} />
