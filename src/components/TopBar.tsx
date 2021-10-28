@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 
-import radio from "../helpers/radioOptions"
+import radio from "../../radioOptions"
 import {navigationProps} from "../helpers/navigationSettings"
 import colors from '../helpers/colors';
 

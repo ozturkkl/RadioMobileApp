@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import radio from "../helpers/radioOptions"
+import radio from "../../radioOptions"
 import Icon from 'react-native-vector-icons/Feather'
 import colors from '../helpers/colors'
 

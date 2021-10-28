@@ -1,6 +1,6 @@
 
 import TrackPlayer, { Capability } from 'react-native-track-player';
-import radio from "../helpers/radioOptions"
+import radio from "../../radioOptions"
 
 TrackPlayer.updateOptions({
     capabilities: [Capability.Play, Capability.Pause, Capability.Stop,],

@@ -63,3 +63,8 @@ src/assets
 radioOptions.ts
 
 .vscode
+
+# App specific files
+app.json
+android/app/src/main/res
+ios/RadioMobileApp/Images.xcassets

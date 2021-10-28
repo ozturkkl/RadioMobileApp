@@ -2,7 +2,7 @@ import React from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import TopBar from '../components/TopBar'
 import TrackDisplay from '../components/TrackDisplay'
-import radio from "../helpers/radioOptions"
+import radio from "../../radioOptions"
 import { navigationProps, navigationStyle } from "../helpers/navigationSettings"
 import PlayButton from '../components/PlayButton'
 import colors from '../helpers/colors'

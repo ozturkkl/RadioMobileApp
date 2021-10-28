@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Easing, Image, StyleSheet, Text, View } from 'react-native'
 import TextTicker from 'react-native-text-ticker'
 import colors from '../helpers/colors'
-import radio from "../helpers/radioOptions"
+import radio from "../../radioOptions"
 import LinksBar from './LinksBar'
 
 

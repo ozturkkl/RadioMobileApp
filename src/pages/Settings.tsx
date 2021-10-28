@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, ImageBackground, StyleSheet, Switch, Text, View } from 'react-native'
 import TopBar from '../components/TopBar'
-import radio from "../helpers/radioOptions"
+import radio from "../../radioOptions"
 import { navigationProps, navigationStyle } from "../helpers/navigationSettings"
 import colors from '../helpers/colors'
 
