@@ -68,3 +68,6 @@ radioOptions.ts
 app.json
 android/app/src/main/res
 ios/RadioMobileApp/Images.xcassets
+
+# Release files
+android/app/release
