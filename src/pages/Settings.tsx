@@ -13,15 +13,17 @@ export default function Settings({ navigation }: props) {
     return (
         <ImageBackground source={radio.BACKGROUND_IMG} resizeMode="cover" blurRadius={colors.backgroundBlur} style={{ flex: 1 }}>
             <View style={styles.main}>
-                <TopBar navigation={navigation} settings={true} />
-                <Text style={{color: colors.mainText}}>Settings coming soon...</Text>
-                <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
-                />
+                <View style={styles.usableArea}>
+                    <TopBar navigation={navigation} settings={true} />
+                    <Text style={{ color: colors.mainText }}>Settings coming soon...</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#81b0ff" }}
+                        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                    />
+                </View>
             </View>
         </ImageBackground>
     )

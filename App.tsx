@@ -1,9 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {
-  useColorScheme,
-} from 'react-native';
+import { useColorScheme } from 'react-native';
+import { pageNavigatorOptions } from './src/helpers/navigationSettings';
 import Home from './src/pages/Home';
 import Settings from './src/pages/Settings';
 
@@ -11,9 +10,6 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  const pageNavigatorOptions = {
-    headerShown: false,
-  }
 
   return (
     <NavigationContainer>
@@ -28,6 +24,5 @@ const App = () => {
     </NavigationContainer>
   );
 };
-
 
 export default App;

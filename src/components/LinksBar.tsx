@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import radio from "../../radioOptions"
 import Icon from 'react-native-vector-icons/Feather'
 import colors from '../helpers/colors'
+import { safeWindowX } from "../helpers/dimensions"
 
 export default function LinksBar() {
     return (
@@ -21,11 +22,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderRadius: 8,
         backgroundColor: colors.linksBackground,
-        marginTop: 15,
+        marginTop: safeWindowX * .045,
     },
     linkIcon: {
-        paddingHorizontal: 15,
-        paddingVertical: 7,
+        paddingHorizontal: safeWindowX * .0375,
+        paddingVertical: safeWindowX * .0375 / 2,
         color: colors.mainText,
     },
 })

@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import colors from "./colors";
+import { safeWindowX } from "./dimensions";
 
 export interface navigationProps {
     navigation: {
@@ -7,12 +8,19 @@ export interface navigationProps {
     },
     route?: object
 }
+export const pageNavigatorOptions = {
+    headerShown: false,
+}
 
-export let navigationStyle = StyleSheet.create({
+export const navigationStyle = StyleSheet.create({
     main: {
         flex: 1,
         backgroundColor: colors.mainBackground,
         alignItems: "center",
-        color: colors.mainText,
+    },
+    usableArea: {
+        width: safeWindowX,
+        flex: 1,
+        alignItems: "center",
     }
 })

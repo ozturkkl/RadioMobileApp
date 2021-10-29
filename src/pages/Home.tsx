@@ -12,13 +12,15 @@ interface props extends navigationProps { }
 
 export default function MainPage({ navigation }: props) {
     return (
-        <View style={{ flex: 1, backgroundColor:"#202020" }}>
+        <View style={{ flex: 1, backgroundColor: "#202020" }}>
             <ImageBackground source={radio.BACKGROUND_IMG} resizeMode="cover" blurRadius={colors.backgroundBlur} style={{ flex: 1 }}>
                 <View style={styles.main}>
-                    <TopBar navigation={navigation} />
-                    <TrackDisplay />
-                    <VolumeControl />
-                    <PlayButton />
+                    <View style={styles.usableArea}>
+                        <TopBar navigation={navigation} />
+                        <TrackDisplay />
+                        <VolumeControl />
+                        <PlayButton />
+                    </View>
                 </View>
             </ImageBackground>
         </View>

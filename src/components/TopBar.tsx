@@ -3,8 +3,10 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 
 import radio from "../../radioOptions"
-import {navigationProps} from "../helpers/navigationSettings"
+import { navigationProps } from "../helpers/navigationSettings"
 import colors from '../helpers/colors';
+
+import { safeWindowX } from "../helpers/dimensions"
 
 
 interface props extends navigationProps {
@@ -16,12 +18,13 @@ export default function TopBar({ navigation, settings }: props) {
     return (
         <View style={styles.container}>
             <View style={[styles.logoContainer, styles.shadow]}>
-                <Image source={radio.RADIO_ICON} style={styles.logo} />
+                <Image source={radio.RADIO_ICON} style={{ width: "100%", height: "100%", }} />
             </View>
 
             <Text style={[styles.header, styles.textShadow]}>{radio.RADIO_NAME}</Text>
 
             <TouchableOpacity
+                style={styles.settingsIconContainer}
                 onPress={() => {
                     if (settings)
                         navigation.navigate('Home')
@@ -29,7 +32,7 @@ export default function TopBar({ navigation, settings }: props) {
                         navigation.navigate('Settings')
                 }}>
 
-                <Icon name={settings ? "home" : "menu"} size={40} style={styles.settingsIcon} />
+                <Icon name={settings ? "home" : "menu"} style={styles.settingsIcon} />
             </TouchableOpacity>
         </View>
     )
@@ -37,30 +40,34 @@ export default function TopBar({ navigation, settings }: props) {
 
 const styles = StyleSheet.create({
     container: {
-        height: 85,
+        height: "15%",
         width: "100%",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
-    },
-    logo: {
-        width: 55,
-        height: 55,
-        borderRadius: 1000,
+        justifyContent: "space-evenly"
     },
     logoContainer: {
-        marginLeft: 15,
-        borderRadius: 100,
+        width: safeWindowX * .16,
+        height: safeWindowX * .16,
+        borderRadius: safeWindowX * .16 * .5,
+        overflow: 'hidden',
     },
     header: {
-        flex: 1,
+        width: "50%",
         textAlign: "center",
-        fontSize: 25,
+        fontSize: safeWindowX * .065,
         fontWeight: "400",
+        paddingBottom: safeWindowX * .017,
         color: colors.mainText,
     },
+    settingsIconContainer: {
+        width: safeWindowX * .16,
+        height: safeWindowX * .16,
+        alignItems: "center",
+        justifyContent: "center",
+    },
     settingsIcon: {
-        marginRight: 15,
+        fontSize: safeWindowX * .11,
         color: colors.mainText,
     },
     shadow: {

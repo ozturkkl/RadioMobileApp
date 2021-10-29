@@ -4,6 +4,7 @@ import TextTicker from 'react-native-text-ticker'
 import colors from '../helpers/colors'
 import radio from "../../radioOptions"
 import LinksBar from './LinksBar'
+import { safeWindowX } from "../helpers/dimensions"
 
 
 export default function TrackDisplay() {
@@ -41,19 +42,15 @@ export default function TrackDisplay() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: "100%",
         alignItems: "center",
-        justifyContent: "space-evenly",
-        margin: 50,
-        padding: 10,
+        justifyContent: "center",
     },
     albumCover: {
-        width: 225,
-        height: 225,
+        width: safeWindowX * .57,
+        height: safeWindowX * .57,
         borderRadius: 10,
         borderColor: colors.albumCoverBorder,
         borderWidth: 3,
-
     },
     shadow: {
         shadowColor: colors.shadowColor,
@@ -76,13 +73,13 @@ const styles = StyleSheet.create({
         textShadowRadius: 10,
     },
     trackArtist: {
-        marginTop: 10,
-        fontSize: 16,
+        marginTop: safeWindowX * .035,
+        fontSize: safeWindowX * .04,
         color: colors.mainText,
     },
     trackName: {
-        marginTop: 5,
-        fontSize: 20,
+        marginTop: safeWindowX * .012,
+        fontSize: safeWindowX * .055,
         fontWeight: '500',
         color: colors.mainText,
     },

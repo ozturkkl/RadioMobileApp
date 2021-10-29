@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
+import { safeWindowX, windowX } from "../helpers/dimensions"
 
 import colors from '../helpers/colors'
 import TrackPlayer, { State, Event, useTrackPlayerEvents } from 'react-native-track-player';
@@ -46,7 +47,7 @@ export default function PlayButton() {
                 <Icon name="square" style={styles.sideIcons} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handlePlay} style={styles.buttonWrapper}>
-                <Icon name={loading ? "loader" : trackPlaying ? "pause" : "play"} style={trackPlaying || loading ? styles.pauseIcon : styles.playIcon} />
+                <Icon name={loading ? "loader" : trackPlaying ? "pause" : "play"} style={[trackPlaying || loading ? {} : styles.playIcon, styles.mainIcon]} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleReset} style={styles.buttonWrapper}>
                 <Icon name="rotate-ccw" style={styles.sideIcons} />
@@ -58,37 +59,31 @@ export default function PlayButton() {
 const styles = StyleSheet.create({
     buttonsContainer: {
         flexDirection: "row",
-        width: "100%",
+        width: windowX,
         justifyContent: "center",
         backgroundColor: colors.playButtonBackground,
+        height: "13%",
     },
     buttonWrapper: {
-        height: 100,
+        height: "100%",
         alignItems: "center",
         justifyContent: "center",
     },
     playIcon: {
-        fontSize: 40,
-        backgroundColor: colors.linksBackground,
-        padding: 15,
-        paddingLeft: 19,
-        paddingRight: 11,
-        borderRadius: 100,
-        margin: 10,
-        color: colors.mainText,
+        paddingLeft: safeWindowX * (.036 + .008),
+        paddingRight: safeWindowX * (.036 - .008),
     },
-    pauseIcon: {
-        fontSize: 40,
+    mainIcon: {
+        fontSize: safeWindowX * .1,
         backgroundColor: colors.linksBackground,
-        padding: 15,
-        borderRadius: 100,
-        margin: 10,
+        padding: safeWindowX * .036,
+        borderRadius: safeWindowX * .085,
+        marginHorizontal: safeWindowX * .03,
         color: colors.mainText,
     },
     sideIcons: {
-        fontSize: 25,
-        padding: 15,
-        paddingHorizontal: 20,
+        fontSize: safeWindowX * .07,
+        paddingHorizontal: safeWindowX * .05,
         color: colors.mainText,
     },
 })

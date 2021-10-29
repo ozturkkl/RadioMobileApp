@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
 import TrackPlayer from 'react-native-track-player';
 import colors from '../helpers/colors';
+import { safeWindowX } from "../helpers/dimensions"
 
 export default function VolumeControl() {
     const [volume, setVolume] = useState(1)
@@ -21,7 +22,7 @@ export default function VolumeControl() {
                 <Icon name={muted ? "volume-x" : volumeIcon} style={styles.volumeIcon} />
             </TouchableOpacity>
             <Slider
-                style={{ width: 300, height: 50 }}
+                style={{ width: safeWindowX * .75, height: safeWindowX * .15 }}
                 value={muted ? 0 : volume}
                 minimumValue={0}
                 maximumValue={1}
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     volumeIcon: {
-        fontSize: 20,
+        fontSize: safeWindowX * .07,
         color: colors.mainText,
     }
 })
