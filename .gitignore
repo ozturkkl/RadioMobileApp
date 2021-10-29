@@ -68,8 +68,6 @@ radioOptions.ts
 app.json
 android/app/src/main/res
 ios/RadioMobileApp/Images.xcassets
-android/app/build.gradle
 
 # Release files
 android/app/release
-
