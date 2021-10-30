@@ -13,6 +13,9 @@ export default async () => {
     await TrackPlayer.setupPlayer({})
     await TrackPlayer.reset()
     await TrackPlayer.add([{
+        title: "",
+        // id: "",
+        artist: "",
         url: radio.RADIO_STREAM_URL,
     }]);
 }
