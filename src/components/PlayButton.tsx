@@ -16,7 +16,7 @@ export default function PlayButton() {
         if (event.state === State.Playing) setTrackPlaying(true)
         else setTrackPlaying(false)
 
-        if (event.state === State.Connecting || event.state === State.Buffering) setLoading(true)
+        if (event.state === State.Connecting || event.state === State.Buffering || event.state === "buffering") setLoading(true)
         else setLoading(false)
     });
     useEffect(() => {
@@ -47,7 +47,7 @@ export default function PlayButton() {
                 <Icon name="square" style={styles.sideIcons} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handlePlay} style={styles.buttonWrapper}>
-                <Icon name={loading ? "loader" : trackPlaying ? "pause" : "play"} style={[trackPlaying || loading ? {} : styles.playIcon, styles.mainIcon]} />
+                <Icon name={loading ? "loader" : trackPlaying ? "pause" : "play"} style={[styles.mainIcon, trackPlaying || loading ? {} : styles.playIcon]} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleReset} style={styles.buttonWrapper}>
                 <Icon name="rotate-ccw" style={styles.sideIcons} />
@@ -69,17 +69,20 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    playIcon: {
-        paddingLeft: safeWindowX * (.036 + .008),
-        paddingRight: safeWindowX * (.036 - .008),
-    },
     mainIcon: {
         fontSize: safeWindowX * .1,
         backgroundColor: colors.linksBackground,
         padding: safeWindowX * .036,
+        paddingLeft: safeWindowX * (.036 + .001),
+        paddingRight: safeWindowX * (.036 - .001),
         borderRadius: safeWindowX * .085,
+        overflow: "hidden",
         marginHorizontal: safeWindowX * .03,
         color: colors.mainText,
+    },
+    playIcon: {
+        paddingLeft: safeWindowX * (.036 + .01),
+        paddingRight: safeWindowX * (.036 - .01),
     },
     sideIcons: {
         fontSize: safeWindowX * .07,
