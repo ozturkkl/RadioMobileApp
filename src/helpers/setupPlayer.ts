@@ -7,6 +7,7 @@ TrackPlayer.updateOptions({
     compactCapabilities: [Capability.Play, Capability.Pause, Capability.Stop],
 
     stopWithApp: false,
+    alwaysPauseOnInterruption: true,
 });
 
 export default async () => {
