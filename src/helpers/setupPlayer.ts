@@ -6,7 +6,7 @@ TrackPlayer.updateOptions({
     capabilities: [Capability.Play, Capability.Pause, Capability.Stop,],
     compactCapabilities: [Capability.Play, Capability.Pause, Capability.Stop],
 
-    stopWithApp: false,
+    stopWithApp: true,
     alwaysPauseOnInterruption: true,
 });
 
