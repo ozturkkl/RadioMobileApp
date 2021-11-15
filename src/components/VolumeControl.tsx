@@ -5,15 +5,26 @@ import Icon from 'react-native-vector-icons/Feather'
 import TrackPlayer from 'react-native-track-player';
 import colors from '../helpers/colors';
 import { safeWindowX } from "../helpers/dimensions"
+import { getData, setData } from '../helpers/storage';
 
 export default function VolumeControl() {
     const [volume, setVolume] = useState(1)
     const [volumeIcon, setVolumeIcon] = useState("volume-2")
     const [muted, setMuted] = useState(false)
+
     useEffect(() => {
-        TrackPlayer.setVolume(muted ? 0 : volume)
-        setVolumeIcon(volume < .3 ? "volume" : volume < .7 ? "volume-1" : "volume-2")
-    }, [volume, muted])
+        getData("volume").then(data => data && setVolume(parseFloat(data)) && changeVolume(parseFloat(data)))
+    }, [])
+    useEffect(() => changeVolume(volume), [volume])
+    useEffect(() => {muted ? TrackPlayer.setVolume(0) : TrackPlayer.setVolume(volume)}, [muted])
+
+    function changeVolume(newVol: number) {
+        TrackPlayer.setVolume(newVol)
+        newVol === 0 ? setMuted(true) : setMuted(false)
+        setVolumeIcon(newVol < .3 ? "volume" : newVol < .7 ? "volume-1" : "volume-2")
+        setData("volume", newVol.toString())
+    }
+
     return (
         <View style={styles.volumeSliderWrapper}>
             <TouchableOpacity onPress={() => {
@@ -28,10 +39,7 @@ export default function VolumeControl() {
                 maximumValue={1}
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
-                onValueChange={val => {
-                    val === 0 ? setMuted(true) : setMuted(false)
-                    setVolume(val)
-                }}
+                onValueChange={val => setVolume(val)}
             />
         </View>
     )
