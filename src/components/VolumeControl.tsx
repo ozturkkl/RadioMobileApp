@@ -2,7 +2,7 @@ import Slider from '@react-native-community/slider'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { Event, State, useTrackPlayerEvents } from 'react-native-track-player';
 import colors from '../helpers/colors';
 import { safeWindowX } from "../helpers/dimensions"
 import { getData, setData } from '../helpers/storage';
@@ -16,7 +16,11 @@ export default function VolumeControl() {
         getData("volume").then(data => data && setVolume(parseFloat(data)) && changeVolume(parseFloat(data)))
     }, [])
     useEffect(() => changeVolume(volume), [volume])
-    useEffect(() => {muted ? TrackPlayer.setVolume(0) : TrackPlayer.setVolume(volume)}, [muted])
+    useEffect(() => { muted ? TrackPlayer.setVolume(0) : TrackPlayer.setVolume(volume) }, [muted])
+
+    useTrackPlayerEvents([Event.PlaybackState], async event => {
+        if (event.state === State.Playing) TrackPlayer.setVolume(volume)
+    });
 
     function changeVolume(newVol: number) {
         TrackPlayer.setVolume(newVol)
