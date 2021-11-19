@@ -1,19 +1,17 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
-
 import radio from "../../radioOptions"
 import { navigationProps } from "../helpers/navigationSettings"
 import colors from '../helpers/colors';
-
 import { safeWindowX } from "../helpers/dimensions"
 
 
 interface props extends navigationProps {
-    settings?: boolean
+    type: string
 }
 
-export default function TopBar({ navigation, settings }: props) {
+export default function TopBar({ navigation, type }: props) {
 
     return (
         <View style={styles.container}>
@@ -21,18 +19,18 @@ export default function TopBar({ navigation, settings }: props) {
                 <Image source={radio.RADIO_ICON} style={{ width: "100%", height: "100%", }} />
             </View>
 
-            <Text style={[styles.header, styles.textShadow]}>{radio.RADIO_NAME}</Text>
+            <Text style={[styles.header, styles.textShadow]}>{type === "podcasts" ? "Podcasts" : radio.RADIO_NAME}</Text>
 
             <TouchableOpacity
                 style={styles.settingsIconContainer}
                 onPress={() => {
-                    if (settings)
+                    if (type === "podcasts")
                         navigation.navigate('Home')
                     else
-                        navigation.navigate('Settings')
+                        navigation.navigate('Podcasts')
                 }}>
 
-                <Icon name={settings ? "home" : "menu"} style={styles.settingsIcon} />
+                <Icon name={type === "podcasts" ? "arrow-left" : "list"} style={styles.settingsIcon} />
             </TouchableOpacity>
         </View>
     )

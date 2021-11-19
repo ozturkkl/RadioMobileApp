@@ -5,15 +5,18 @@ import { navigationProps } from "../helpers/navigationSettings"
 import PlayButton from '../components/PlayButton'
 import VolumeControl from '../components/VolumeControl'
 import Container from './Container'
+import PodcastsList from '../components/PodcastsList'
 
 interface props extends navigationProps { }
 
-export default function Home({ navigation }: props) {
+export default function Podcasts({ navigation }: props) {
     return (
         <Container>
-            <TopBar navigation={navigation} type="Home"/>
-            <TrackDisplay />
-            <VolumeControl />
+            <TopBar navigation={navigation} type="podcasts"/>
+            <PodcastsList />
+            {/* <TrackDisplay /> */}
+            {/* <VolumeControl /> */}
+            {/* <VolumeControl /> */}
             <PlayButton />
         </Container>
     )

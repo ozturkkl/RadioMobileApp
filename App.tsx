@@ -4,7 +4,7 @@ import React from 'react';
 import { useColorScheme } from 'react-native';
 import { pageNavigatorOptions } from './src/helpers/navigationSettings';
 import Home from './src/pages/Home';
-import Settings from './src/pages/Settings';
+import Podcasts from './src/pages/Podcasts';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,12 +14,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={pageNavigatorOptions}
-        />
-        <Stack.Screen name="Settings" component={Settings} options={pageNavigatorOptions} />
+        <Stack.Screen name="Home" component={Home} options={pageNavigatorOptions} />
+        <Stack.Screen name="Podcasts" component={Podcasts} options={pageNavigatorOptions} />
       </Stack.Navigator>
     </NavigationContainer>
   );

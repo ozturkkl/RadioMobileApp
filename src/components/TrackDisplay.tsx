@@ -5,6 +5,7 @@ import colors from '../helpers/colors'
 import radio from "../../radioOptions"
 import LinksBar from './LinksBar'
 import { safeWindowX } from "../helpers/dimensions"
+import { fetchStreamInfo } from '../helpers/fetchRadioData'
 
 
 export default function TrackDisplay() {
@@ -13,7 +14,7 @@ export default function TrackDisplay() {
     const [trackName, setTrackName] = useState("")
     useEffect(() => {
         const destroy = setInterval(() => {
-            radio.FETCH_TRACK_INFO(setAlbumCover, setTrackArtist, setTrackName)
+            fetchStreamInfo(setAlbumCover, setTrackArtist, setTrackName)
         }, 1000);
         return () => {
             clearInterval(destroy)
