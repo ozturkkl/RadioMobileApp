@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import colors from '../helpers/colors'
-import { fetchPodcastsFromCastos } from '../helpers/fetchRadioData'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { fetchPodcastsFromCastos, podcast } from '../helpers/fetchRadioData'
+import Podcast from './Podcast'
+
 
 export default function PodcastsList() {
-    const [podcasts, setPodcasts] = useState<{
-        title: string,
-        description: string,
-        imageUrl: string,
-        items: object
-    }[]>([])
+    const [podcasts, setPodcasts] = useState<podcast[]>([])
 
     useEffect(() => {
         fetchPodcastsFromCastos(setPodcasts)
@@ -17,7 +13,11 @@ export default function PodcastsList() {
 
     return (
         <View style={styles.container}>
-            {podcasts.map((podcast, idx) => <Text key={idx} style={{color: "white", fontSize: 30}}>{podcast.title}</Text>)}
+            <FlatList
+                data={podcasts}
+                renderItem={Podcast}
+                keyExtractor={item => item.id}
+            />
         </View>
     )
 }
@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: "100%",
-        color: colors.mainText,
-        alignItems: "center",
         justifyContent: "center",
     }
 })

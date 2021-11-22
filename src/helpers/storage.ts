@@ -11,9 +11,7 @@ export const setData = async (key: string, value: any) => {
 export const getData = async (key: string) => {
     try {
         const value = await AsyncStorage.getItem(key)
-        if (value !== null) {
-            return value
-        }
+        return value || null
     } catch (e) {
         console.log(e)
         return null
