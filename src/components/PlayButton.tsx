@@ -5,8 +5,7 @@ import { safeWindowX, windowX } from "../helpers/dimensions"
 
 import colors from '../helpers/colors'
 import TrackPlayer, { State, Event, useTrackPlayerEvents } from 'react-native-track-player';
-import setupPlayer from '../helpers/setupPlayer';
-
+import { playRadio } from '../helpers/setupPlayer';
 
 
 export default function PlayButton() {
@@ -25,7 +24,7 @@ export default function PlayButton() {
     async function handlePlay() {
         const state = await TrackPlayer.getState();
         if (state !== State.Playing && state !== State.Paused) {
-            await setupPlayer()
+            await playRadio()
         }
         if (state === State.Playing) {
             TrackPlayer.pause()

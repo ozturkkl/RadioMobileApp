@@ -2,12 +2,13 @@ import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import colors from '../helpers/colors'
 import { safeWindowX } from '../helpers/dimensions'
-import { podcast } from '../helpers/fetchRadioData'
+import { podcast } from '../helpers/types'
+import { playPodcast } from '../helpers/setupPlayer'
 
 
 export default function Podcast({ item }: { item: podcast }) {
     function handleClickPodcast() {
-        console.log("open", item.id)
+        playPodcast(item.id)
     }
     return (
         <TouchableOpacity style={styles.container} onPress={handleClickPodcast}>

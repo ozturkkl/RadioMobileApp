@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import { fetchPodcastsFromCastos, podcast } from '../helpers/fetchRadioData'
+import { fetchPodcastsFromCastos } from '../helpers/fetchRadioData'
+import { podcast } from '../helpers/types'
 import Podcast from './Podcast'
 
 
