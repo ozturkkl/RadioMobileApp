@@ -12,7 +12,7 @@ TrackPlayer.updateOptions({
   alwaysPauseOnInterruption: true,
 });
 
-export const playRadio = async () => {
+export const setupRadio = async () => {
   await TrackPlayer.setupPlayer({waitForBuffer: true});
   await TrackPlayer.reset();
   await TrackPlayer.add([
@@ -23,17 +23,10 @@ export const playRadio = async () => {
     },
   ]);
 };
-export const playPodcast = async (podcastId: string) => {
+export const setupPodcast = async (podcast: podcast) => {
   await TrackPlayer.setupPlayer({waitForBuffer: true});
   await TrackPlayer.reset();
 
-  const podcast = <podcast>(
-    JSON.parse((await getData('podcasts')) || '[]').filter(
-      (podcast: podcast) => podcast.id === podcastId,
-    )[0]
-  );
-
-  log(podcast);
   if (podcast.items)
     podcast.items.forEach(async item => {
       await TrackPlayer.add([

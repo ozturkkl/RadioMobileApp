@@ -1,17 +1,12 @@
 import radioOptions from '../../radioOptions';
 import rssParse from '../helpers/rssParse';
-import {log} from './logger';
 import {getData, setData} from './storage';
+import {podcast} from './types';
+import uuid from 'react-native-uuid';
 
-export const fetchStreamInfo = async (
-  setAlbumCover: React.Dispatch<any>,
-  setTrackArtist: React.Dispatch<any>,
-  setTrackName: React.Dispatch<any>,
-) => {
+export const fetchStreamInfo = async (setAlbumCover: React.Dispatch<any>, setTrackArtist: React.Dispatch<any>, setTrackName: React.Dispatch<any>) => {
   try {
-    let res = await (
-      await fetch(radioOptions.RADIO_STREAM_TRACK_INFO_URL)
-    ).json();
+    let res = await (await fetch(radioOptions.RADIO_STREAM_TRACK_INFO_URL)).json();
     setAlbumCover(res.cover);
     setTrackArtist(res.artist);
     setTrackName(res.title);
@@ -20,9 +15,7 @@ export const fetchStreamInfo = async (
   }
 };
 
-export const fetchPodcastsFromCastos = async (
-  setPodcasts: React.Dispatch<any>,
-) => {
+export const fetchPodcastsFromCastos = async (setPodcasts: React.Dispatch<any>) => {
   const podcasts: object[] = [];
 
   const stored = JSON.parse((await getData('podcasts')) || '[]');
@@ -35,29 +28,10 @@ export const fetchPodcastsFromCastos = async (
   }
 
   try {
-    console.log(
-      `https://app.castos.com/api/v2/podcasts?token=${radioOptions.CASTOS_TOKEN}`,
-    );
-    const list = (
-      await (
-        await fetch(
-          `https://app.castos.com/api/v2/podcasts?token=${radioOptions.CASTOS_TOKEN}`,
-        )
-      ).json()
-    ).data.podcast_list;
+    const list = (await (await fetch(`https://app.castos.com/api/v2/podcasts?token=${radioOptions.CASTOS_TOKEN}`)).json()).data.podcast_list;
     for (let item in list) {
-      console.log(
-        `https://app.castos.com/api/v2/podcasts/${item}?token=${radioOptions.CASTOS_TOKEN}`,
-      );
-      const podcast = (
-        await (
-          await fetch(
-            `https://app.castos.com/api/v2/podcasts/${item}?token=${radioOptions.CASTOS_TOKEN}`,
-          )
-        ).json()
-      ).data;
+      const podcast = (await (await fetch(`https://app.castos.com/api/v2/podcasts/${item}?token=${radioOptions.CASTOS_TOKEN}`)).json()).data;
 
-      log(await rssParse('https://' + podcast.rss_url));
       let {
         title,
         description,
@@ -89,4 +63,32 @@ export const fetchPodcastsFromCastos = async (
   setData('podcasts', JSON.stringify(podcasts));
   setData('podcasts_updated', Date.now().toString());
   setPodcasts(podcasts);
+};
+
+export const fetchPodcastsFromCustomUrl = async (setPodcasts: React.Dispatch<any>) => {
+  const podcasts: podcast[] = [];
+  const rssData = await rssParse(radioOptions.PODCAST_RSS_FEED);
+  rssData.items.forEach(item => {
+    const podcast = podcasts.find(podcast => podcast.title === item.itunes.summary);
+    if (podcast) {
+      podcast.items.push({
+        title: item.title,
+        url: item.enclosures[0].url,
+      });
+    } else {
+      podcasts.push({
+        id: uuid.v4().toString(),
+        title: item.itunes.summary || radioOptions.RADIO_NAME,
+        description: item.description,
+        imageUrl: item.itunes.image || radioOptions.RADIO_ICON,
+        items: [
+          {
+            title: item.title,
+            url: item.enclosures[0].url,
+          },
+        ],
+      });
+    }
+  });
+  setPodcasts(podcasts)
 };
