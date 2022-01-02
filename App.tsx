@@ -1,16 +1,13 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import { useColorScheme } from 'react-native';
-import { pageNavigatorOptions } from './src/helpers/navigationSettings';
+import {pageNavigatorOptions} from './src/helpers/navigationSettings';
 import Home from './src/pages/Home';
 import Podcasts from './src/pages/Podcasts';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
     <NavigationContainer>
       <Stack.Navigator>

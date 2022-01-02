@@ -15,6 +15,7 @@ export const fetchStreamInfo = async (setAlbumCover: React.Dispatch<any>, setTra
   }
 };
 
+// Not using this anymore, keeping for reference.
 export const fetchPodcastsFromCastos = async (setPodcasts: React.Dispatch<any>) => {
   const podcasts: object[] = [];
 
@@ -90,5 +91,5 @@ export const fetchPodcastsFromCustomUrl = async (setPodcasts: React.Dispatch<any
       });
     }
   });
-  setPodcasts(podcasts)
+  setPodcasts(podcasts);
 };
