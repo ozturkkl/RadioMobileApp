@@ -1,7 +1,5 @@
 import TrackPlayer, {Capability} from 'react-native-track-player';
 import radio from '../../radioOptions';
-import {log} from './logger';
-import {getData} from './storage';
 import {podcast} from './types';
 
 TrackPlayer.updateOptions({

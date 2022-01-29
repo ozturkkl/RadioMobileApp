@@ -1,8 +1,8 @@
 import React from 'react';
-import TopBar from '../components/TopNav';
-import TrackDisplay from '../components/radio/RadioTrackDisplay';
+import TopNav from '../components/TopNav';
+import RadioTrackDisplay from '../components/radio/RadioTrackDisplay';
 import {navigationProps} from '../helpers/navigationSettings';
-import PlayButton from '../components/radio/RadioPlayer';
+import RadioPlayer from '../components/radio/RadioPlayer';
 import VolumeControl from '../components/VolumeControl';
 import Container from './Container';
 
@@ -11,10 +11,10 @@ interface props extends navigationProps {}
 export default function Home({navigation}: props) {
   return (
     <Container>
-      <TopBar navigation={navigation} type="Home" />
-      <TrackDisplay />
+      <TopNav navigation={navigation} type="Home" />
+      <RadioTrackDisplay />
       <VolumeControl />
-      <PlayButton />
+      <RadioPlayer />
     </Container>
   );
 }
