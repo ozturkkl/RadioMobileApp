@@ -1,8 +1,8 @@
 import React from 'react';
-import TopBar from '../components/TopBar';
-import TrackDisplay from '../components/TrackDisplay';
+import TopBar from '../components/TopNav';
+import TrackDisplay from '../components/radio/RadioTrackDisplay';
 import {navigationProps} from '../helpers/navigationSettings';
-import PlayButton from '../components/PlayButton';
+import PlayButton from '../components/radio/RadioPlayer';
 import VolumeControl from '../components/VolumeControl';
 import Container from './Container';
 

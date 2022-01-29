@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import {safeWindowX, windowX} from '../helpers/dimensions';
+import {safeWindowX, windowX} from '../../helpers/dimensions';
 
-import colors from '../helpers/colors';
+import colors from '../../helpers/colors';
 import TrackPlayer, {State, Event, useTrackPlayerEvents} from 'react-native-track-player';
-import {setupRadio} from '../helpers/setupPlayer';
+import {setupRadio} from '../../helpers/setupPlayer';
 
 export default function PlayButton() {
   const [trackPlaying, setTrackPlaying] = useState(false);

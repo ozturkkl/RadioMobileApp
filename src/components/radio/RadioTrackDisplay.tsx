@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Easing, Image, StyleSheet, Text, View} from 'react-native';
 import TextTicker from 'react-native-text-ticker';
-import colors from '../helpers/colors';
-import radio from '../../radioOptions';
-import LinksBar from './LinksBar';
-import {safeWindowX} from '../helpers/dimensions';
-import {fetchStreamInfo} from '../helpers/fetchRadioData';
+import colors from '../../helpers/colors';
+import radio from '../../../radioOptions';
+import LinksBar from '../LinksBar';
+import {safeWindowX} from '../../helpers/dimensions';
+import {fetchStreamInfo} from '../../helpers/fetchRadioData';
 
 export default function TrackDisplay() {
   const [albumCover, setAlbumCover] = useState('');

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import colors from '../helpers/colors';
-import {safeWindowX} from '../helpers/dimensions';
-import {podcast} from '../helpers/types';
-import {setupPodcast} from '../helpers/setupPlayer';
+import colors from '../../helpers/colors';
+import {safeWindowX} from '../../helpers/dimensions';
+import {podcast} from '../../helpers/types';
+import {setupPodcast} from '../../helpers/setupPlayer';
 import TrackPlayer, {State, Event, useTrackPlayerEvents} from 'react-native-track-player';
 
 export default function Podcast({item}: {item: podcast}) {

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {fetchPodcastsFromCastos, fetchPodcastsFromCustomUrl} from '../helpers/fetchRadioData';
-import {log} from '../helpers/logger';
-import {podcast} from '../helpers/types';
-import Podcast from './Podcast';
+import {fetchPodcastsFromCastos, fetchPodcastsFromCustomUrl} from '../../helpers/fetchRadioData';
+import {log} from '../../helpers/logger';
+import {podcast} from '../../helpers/types';
+import Podcast from './PodcastItem';
 
 export default function PodcastsList() {
   const [podcasts, setPodcasts] = useState<podcast[]>([]);
