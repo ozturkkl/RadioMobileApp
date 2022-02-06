@@ -10,7 +10,10 @@ TrackPlayer.updateOptions({
   alwaysPauseOnInterruption: true,
 });
 
+export let currentPodcast: podcast | null = null;
+
 export const setupRadio = async () => {
+  currentPodcast = null;
   await TrackPlayer.setupPlayer({waitForBuffer: true});
   await TrackPlayer.reset();
   await TrackPlayer.add([
@@ -21,18 +24,28 @@ export const setupRadio = async () => {
     },
   ]);
 };
-export const setupPodcast = async (podcast: podcast) => {
-  await TrackPlayer.setupPlayer({waitForBuffer: true});
-  await TrackPlayer.reset();
+export const setupPodcast = async (podcast: podcast, index?: number) => {
+  if (currentPodcast !== podcast) {
+    await TrackPlayer.setupPlayer({waitForBuffer: true});
+    await TrackPlayer.reset();
 
-  if (podcast.items)
-    podcast.items.forEach(async item => {
-      await TrackPlayer.add([
-        {
-          title: item.title,
-          artist: podcast.title,
-          url: item.url,
-        },
-      ]);
-    });
+    if (podcast.items) {
+      podcast.items.forEach(async item => {
+        await TrackPlayer.add([
+          {
+            title: item.title,
+            artist: podcast.title,
+            url: item.url,
+          },
+        ]);
+      });
+    }
+  }
+
+  currentPodcast = podcast;
+
+  if (index !== undefined) {
+    await TrackPlayer.getQueue();
+    await TrackPlayer.skip(index);
+  }
 };

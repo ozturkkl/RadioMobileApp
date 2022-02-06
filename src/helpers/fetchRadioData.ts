@@ -2,7 +2,7 @@ import radioOptions from '../../radioOptions';
 import rssParse from '../helpers/rssParse';
 import {getData, setData} from './storage';
 import {podcast} from './types';
-import uuid from 'react-native-uuid';
+// import uuid from 'react-native-uuid';
 
 export const fetchStreamInfo = async (setAlbumCover: React.Dispatch<any>, setTrackArtist: React.Dispatch<any>, setTrackName: React.Dispatch<any>) => {
   try {
@@ -78,7 +78,7 @@ export const fetchPodcastsFromCustomUrl = async (setPodcasts: React.Dispatch<any
       });
     } else {
       podcasts.push({
-        id: uuid.v4().toString(),
+        // id: uuid.v4().toString(),
         title: item.itunes.summary || radioOptions.RADIO_NAME,
         description: item.description,
         imageUrl: item.itunes.image || radioOptions.RADIO_ICON,

@@ -1,12 +1,11 @@
 export interface podcast {
-  id: string;
   title: string;
   description: string;
   imageUrl: string;
-  items: [
-    {
-      title: string;
-      url: string;
-    },
-  ];
+  items: [episode];
+}
+
+export interface episode {
+  title: string;
+  url: string;
 }

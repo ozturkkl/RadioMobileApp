@@ -7,7 +7,7 @@ import LinksBar from '../LinksBar';
 import {safeWindowX} from '../../helpers/dimensions';
 import {fetchStreamInfo} from '../../helpers/fetchRadioData';
 
-export default function TrackDisplay() {
+export default function RadioTrackDisplay() {
   const [albumCover, setAlbumCover] = useState('');
   const [trackArtist, setTrackArtist] = useState('');
   const [trackName, setTrackName] = useState('');

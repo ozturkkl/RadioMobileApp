@@ -5,56 +5,48 @@ import TrackPlayer, {State, Event, useTrackPlayerEvents} from 'react-native-trac
 
 import {safeWindowX, windowX} from '../../helpers/dimensions';
 import colors from '../../helpers/colors';
-import {currentPodcast, setupRadio} from '../../helpers/setupPlayer';
+import {currentPodcast} from '../../helpers/setupPlayer';
 
-export default function RadioPlayer() {
+export default function PodcastPlayer() {
   const [trackPlaying, setTrackPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   useTrackPlayerEvents([Event.PlaybackState], async event => {
-    if (event.state === State.Playing && !currentPodcast) setTrackPlaying(true);
+    if (event.state === State.Playing && currentPodcast) setTrackPlaying(true);
     else setTrackPlaying(false);
 
     if (event.state === State.Connecting || event.state === State.Buffering || event.state === 'buffering') setLoading(true);
     else setLoading(false);
   });
   useEffect(() => {
-    TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing && !currentPodcast));
+    TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing && !!currentPodcast));
   }, []);
   async function handlePlay() {
     const state = await TrackPlayer.getState();
-
-    if (state !== State.Playing && state !== State.Paused) {
-      await setupRadio();
-    }
 
     if (state === State.Playing) {
       TrackPlayer.pause();
     } else {
       TrackPlayer.play();
     }
-
-    if (currentPodcast) {
-      await setupRadio();
-      TrackPlayer.play();
-    }
   }
-  function handleStop() {
-    TrackPlayer.stop();
+  async function handleSkipBack() {
+    if ((await TrackPlayer.getCurrentTrack()) === 0) return;
+    await TrackPlayer.skipToPrevious();
   }
-  function handleReset() {
-    handleStop();
-    handlePlay();
+  async function handleSkipNext() {
+    if ((await TrackPlayer.getCurrentTrack()) >= (await (await TrackPlayer.getQueue()).length) - 1) return;
+    await TrackPlayer.skipToNext();
   }
   return (
     <View style={styles.buttonsContainer}>
-      <TouchableOpacity onPress={handleStop} style={styles.buttonWrapper}>
-        <Icon name="square" style={styles.sideIcons} />
+      <TouchableOpacity onPress={handleSkipBack} style={styles.buttonWrapper}>
+        <Icon name="skip-back" style={styles.sideIcons} />
       </TouchableOpacity>
       <TouchableOpacity onPress={handlePlay} style={styles.buttonWrapper}>
         <Icon name={loading ? 'loader' : trackPlaying ? 'pause' : 'play'} style={[styles.mainIcon, trackPlaying || loading ? {} : styles.playIcon]} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleReset} style={styles.buttonWrapper}>
-        <Icon name="rotate-ccw" style={styles.sideIcons} />
+      <TouchableOpacity onPress={handleSkipNext} style={styles.buttonWrapper}>
+        <Icon name="skip-forward" style={styles.sideIcons} />
       </TouchableOpacity>
     </View>
   );

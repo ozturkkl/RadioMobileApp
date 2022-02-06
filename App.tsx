@@ -2,6 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {pageNavigatorOptions} from './src/helpers/navigationSettings';
+import Episodes from './src/pages/Episodes';
 import Home from './src/pages/Home';
 import Podcasts from './src/pages/Podcasts';
 
@@ -13,6 +14,7 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} options={pageNavigatorOptions} />
         <Stack.Screen name="Podcasts" component={Podcasts} options={pageNavigatorOptions} />
+        <Stack.Screen name="Episodes" component={Episodes} options={pageNavigatorOptions} />
       </Stack.Navigator>
     </NavigationContainer>
   );

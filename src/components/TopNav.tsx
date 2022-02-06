@@ -10,22 +10,26 @@ interface props extends navigationProps {
   type: string;
 }
 
-export default function TopBar({navigation, type}: props) {
+export default function TopNav({navigation, type}: props) {
   return (
     <View style={styles.container}>
-      <View style={[styles.logoContainer, styles.shadow]}>
+      <TouchableOpacity
+        style={[styles.logoContainer, styles.shadow]}
+        onPress={() => {
+          navigation.navigate('Home');
+        }}>
         <Image source={radio.RADIO_ICON} style={{width: '100%', height: '100%'}} />
-      </View>
+      </TouchableOpacity>
 
-      <Text style={[styles.header, styles.textShadow]}>{type === 'podcasts' ? 'Podcasts' : radio.RADIO_NAME}</Text>
+      <Text style={[styles.header, styles.textShadow]}>{type === 'Podcasts' || type === 'Episodes' ? 'Podcasts' : radio.RADIO_NAME}</Text>
 
       <TouchableOpacity
         style={styles.settingsIconContainer}
         onPress={() => {
-          if (type === 'podcasts') navigation.navigate('Home');
+          if (type === 'Podcasts') navigation.navigate('Home');
           else navigation.navigate('Podcasts');
         }}>
-        <Icon name={type === 'podcasts' ? 'arrow-left' : 'list'} style={styles.settingsIcon} />
+        <Icon name={type === 'Podcasts' || type === 'Episodes' ? 'arrow-left' : 'list'} style={styles.settingsIcon} />
       </TouchableOpacity>
     </View>
   );

@@ -4,7 +4,7 @@ import {safeWindowX} from './dimensions';
 
 export interface navigationProps {
   navigation: {
-    navigate: (arg0: string) => void;
+    navigate: (arg0: string, params?: any) => void;
   };
   route?: object;
 }
