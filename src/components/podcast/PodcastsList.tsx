@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
+import {safeWindowX} from '../../helpers/dimensions';
 
 import {fetchPodcastsFromCustomUrl} from '../../helpers/fetchRadioData';
 import {navigationProps} from '../../helpers/navigationSettings';
@@ -26,5 +27,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     justifyContent: 'center',
+    marginBottom: safeWindowX * 0.04,
   },
 });

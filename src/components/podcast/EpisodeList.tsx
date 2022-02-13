@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import TrackPlayer, {Event, useTrackPlayerEvents} from 'react-native-track-player';
+import {safeWindowX} from '../../helpers/dimensions';
 
 import {currentPodcast} from '../../helpers/setupPlayer';
 import {podcast} from '../../helpers/types';
@@ -47,5 +48,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     justifyContent: 'center',
+    marginBottom: safeWindowX * 0.04,
   },
 });
