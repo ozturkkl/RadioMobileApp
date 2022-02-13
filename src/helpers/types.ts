@@ -8,4 +8,5 @@ export interface podcast {
 export interface episode {
   title: string;
   url: string;
+  duration: string;
 }

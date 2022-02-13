@@ -47,7 +47,7 @@ export default function VolumeControl() {
         minimumValue={0}
         maximumValue={1}
         minimumTrackTintColor="#FFFFFF"
-        maximumTrackTintColor="#000000"
+        maximumTrackTintColor="#FFFFFF"
         onValueChange={val => setVolume(val)}
       />
     </View>

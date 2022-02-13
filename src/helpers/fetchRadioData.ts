@@ -75,6 +75,7 @@ export const fetchPodcastsFromCustomUrl = async (setPodcasts: React.Dispatch<any
       podcast.items.push({
         title: item.title,
         url: item.enclosures[0].url,
+        duration: item.itunes.duration,
       });
     } else {
       podcasts.push({
@@ -86,6 +87,7 @@ export const fetchPodcastsFromCustomUrl = async (setPodcasts: React.Dispatch<any
           {
             title: item.title,
             url: item.enclosures[0].url,
+            duration: item.itunes.duration,
           },
         ],
       });

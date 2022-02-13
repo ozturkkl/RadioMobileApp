@@ -38,6 +38,12 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
           {episode.title}
         </Text>
       </View>
+
+      <View style={styles.durationContainer}>
+        <Text numberOfLines={1} style={[styles.title, styles.textShadow, styles.duration]}>
+          {episode.duration}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -64,6 +70,13 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     flex: 1,
     paddingHorizontal: safeWindowX * 0.03,
+  },
+  durationContainer: {
+    width: safeWindowX * 0.16,
+    paddingHorizontal: safeWindowX * 0.03,
+  },
+  duration: {
+    fontSize: safeWindowX * 0.035,
   },
   title: {
     color: colors.mainText,
