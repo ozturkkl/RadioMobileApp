@@ -6,6 +6,7 @@ import colors from '../../helpers/colors';
 import {safeWindowX} from '../../helpers/dimensions';
 import {episode, podcast} from '../../helpers/types';
 import {currentPodcast, setupPodcast} from '../../helpers/setupPlayer';
+import global from '../../helpers/global';
 
 interface props {
   podcast: podcast;
@@ -21,6 +22,9 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
     await setupPodcast(podcast, index);
 
     await TrackPlayer.play();
+
+    global.setPodcastPlaying.episodes?.(true);
+    global.setPodcastPlaying.podcasts?.(true);
   }
 
   return (
@@ -46,14 +50,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.linksBackground,
     borderRadius: safeWindowX * 0.16 * 0.2,
     marginHorizontal: safeWindowX * 0.02,
-    marginVertical: safeWindowX * 0.02,
+    marginVertical: safeWindowX * 0.01,
   },
   playing: {
     backgroundColor: '#ffffff66',
   },
   logoContainer: {
-    width: safeWindowX * 0.2,
-    height: safeWindowX * 0.2,
+    width: safeWindowX * 0.15,
+    height: safeWindowX * 0.15,
     borderRadius: safeWindowX * 0.16 * 0.2,
     overflow: 'hidden',
   },

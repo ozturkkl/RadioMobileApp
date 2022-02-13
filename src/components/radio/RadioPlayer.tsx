@@ -28,22 +28,25 @@ export default function RadioPlayer() {
     }
 
     if (state === State.Playing) {
-      TrackPlayer.pause();
+      await TrackPlayer.pause();
     } else {
-      TrackPlayer.play();
+      await TrackPlayer.play();
     }
 
     if (currentPodcast) {
       await setupRadio();
-      TrackPlayer.play();
+      await TrackPlayer.play();
     }
   }
-  function handleStop() {
-    TrackPlayer.stop();
+  async function handleStop() {
+    if (currentPodcast) {
+      await setupRadio();
+    }
+    await TrackPlayer.stop();
   }
-  function handleReset() {
-    handleStop();
-    handlePlay();
+  async function handleReset() {
+    await handleStop();
+    await handlePlay();
   }
   return (
     <View style={styles.buttonsContainer}>
