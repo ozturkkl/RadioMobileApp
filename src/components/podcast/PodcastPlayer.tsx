@@ -42,11 +42,14 @@ export default function PodcastPlayer() {
     if ((await TrackPlayer.getCurrentTrack()) >= (await (await TrackPlayer.getQueue()).length) - 1) return;
     await TrackPlayer.skipToNext();
   }
-  async function handleSeekBackward() {
-    await TrackPlayer.seekTo(position - SEEK_TIME);
+  function handleSeekBackward() {
+    TrackPlayer.seekTo(position - SEEK_TIME);
   }
-  async function handleSeekForward() {
-    await TrackPlayer.seekTo(position + SEEK_TIME);
+  function handleSeekForward() {
+    TrackPlayer.seekTo(position + SEEK_TIME);
+  }
+  function handleSeek(value: number) {
+    TrackPlayer.seekTo(value);
   }
   return (
     <>
@@ -61,7 +64,7 @@ export default function PodcastPlayer() {
           maximumValue={duration}
           minimumTrackTintColor="#FFFFFF"
           maximumTrackTintColor="#FFFFFF"
-          onValueChange={async val => await TrackPlayer.seekTo(val)}
+          onSlidingComplete={val => handleSeek(val)}
         />
         <Text style={styles.duration}>
           {(duration / 60 > 1 ? `${parseInt((duration / 60).toString())}:` : '') + `${parseInt((duration % 60).toString())}`}
