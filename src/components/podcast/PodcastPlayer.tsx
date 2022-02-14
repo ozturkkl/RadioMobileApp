@@ -11,16 +11,16 @@ import {currentPodcast} from '../../helpers/setupPlayer';
 export default function PodcastPlayer() {
   const [trackPlaying, setTrackPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
-  const {position, buffered, duration} = useProgress();
+  const {position, duration} = useProgress();
 
   const SEEK_TIME = 15;
 
-  useTrackPlayerEvents([Event.PlaybackState], event => {
-    if (event.state === State.Playing && currentPodcast) setTrackPlaying(true);
-    else setTrackPlaying(false);
+  useTrackPlayerEvents([Event.PlaybackState], async event => {
+    if (event.state === State.Playing && currentPodcast) await setTrackPlaying(true);
+    else await setTrackPlaying(false);
 
-    if (event.state === State.Connecting || event.state === State.Buffering || event.state === 'buffering') setLoading(true);
-    else setLoading(false);
+    if (event.state === State.Connecting || event.state === State.Buffering || event.state === 'buffering') await setLoading(true);
+    else await setLoading(false);
   });
   useEffect(() => {
     TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing && !!currentPodcast));
@@ -29,9 +29,9 @@ export default function PodcastPlayer() {
     const state = await TrackPlayer.getState();
 
     if (state === State.Playing) {
-      TrackPlayer.pause();
+      await TrackPlayer.pause();
     } else {
-      TrackPlayer.play();
+      await TrackPlayer.play();
     }
   }
   async function handleSkipBack() {
@@ -42,14 +42,14 @@ export default function PodcastPlayer() {
     if ((await TrackPlayer.getCurrentTrack()) >= (await (await TrackPlayer.getQueue()).length) - 1) return;
     await TrackPlayer.skipToNext();
   }
-  function handleSeekBackward() {
-    TrackPlayer.seekTo(position - SEEK_TIME);
+  async function handleSeekBackward() {
+    await TrackPlayer.seekTo(position - SEEK_TIME);
   }
-  function handleSeekForward() {
-    TrackPlayer.seekTo(position + SEEK_TIME);
+  async function handleSeekForward() {
+    await TrackPlayer.seekTo(position + SEEK_TIME);
   }
-  function handleSeek(value: number) {
-    TrackPlayer.seekTo(value);
+  async function handleSeek(value: number) {
+    await TrackPlayer.seekTo(value);
   }
   return (
     <>
