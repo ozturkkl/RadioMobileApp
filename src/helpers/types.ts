@@ -1,11 +1,11 @@
-export interface podcast {
+export interface Podcast {
   title: string;
   description: string;
   imageUrl: string;
-  items: [episode];
+  items: Episode[];
 }
 
-export interface episode {
+export interface Episode {
   title: string;
   url: string;
   duration: string;

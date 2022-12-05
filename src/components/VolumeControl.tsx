@@ -13,8 +13,14 @@ export default function VolumeControl() {
   const [muted, setMuted] = useState(false);
 
   useEffect(() => {
-    getData('volume').then(data => data && setVolume(parseFloat(data)) && changeVolume(parseFloat(data)));
+    getData('volume').then(data => {
+      if (data) {
+        setVolume(parseFloat(data));
+        changeVolume(parseFloat(data));
+      }
+    });
   }, []);
+
   useEffect(() => changeVolume(volume), [volume]);
   useEffect(() => {
     muted ? TrackPlayer.setVolume(0) : TrackPlayer.setVolume(volume);

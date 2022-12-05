@@ -4,13 +4,13 @@ import TrackPlayer, {State} from 'react-native-track-player';
 
 import colors from '../../helpers/colors';
 import {safeWindowX} from '../../helpers/dimensions';
-import {episode, podcast} from '../../helpers/types';
+import {Episode, Podcast} from '../../helpers/types';
 import {currentPodcast, setupPodcast} from '../../helpers/setupPlayer';
 import global from '../../helpers/global';
 
 interface props {
-  podcast: podcast;
-  episode: episode;
+  podcast: Podcast;
+  episode: Episode;
   index: number;
   indexPlaying: number;
 }
@@ -19,7 +19,7 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
   async function handleClickPodcast() {
     if (index === (await TrackPlayer.getCurrentTrack()) && (await TrackPlayer.getState()) === State.Playing && currentPodcast === podcast) return;
 
-    await setupPodcast(podcast, index);
+    await setupPodcast({...podcast, items: [...podcast.items].reverse()}, podcast.items.length - index - 1);
 
     await TrackPlayer.play();
 
@@ -28,7 +28,9 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
   }
 
   return (
-    <TouchableOpacity style={[styles.container, indexPlaying === index ? styles.playing : styles.container]} onPress={handleClickPodcast}>
+    <TouchableOpacity
+      style={[styles.container, podcast.items.length - indexPlaying - 1 === index ? styles.playing : styles.container]}
+      onPress={handleClickPodcast}>
       <View style={[styles.logoContainer, styles.shadow]}>
         <Image source={{uri: podcast.imageUrl}} style={{width: '100%', height: '100%'}} />
       </View>

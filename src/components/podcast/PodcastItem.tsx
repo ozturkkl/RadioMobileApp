@@ -3,18 +3,16 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import colors from '../../helpers/colors';
 import {safeWindowX} from '../../helpers/dimensions';
-import {podcast} from '../../helpers/types';
+import {Podcast} from '../../helpers/types';
 import {navigationProps} from '../../helpers/navigationSettings';
 
 interface props extends navigationProps {
-  item: podcast;
+  item: Podcast;
 }
 
 export default function PodcastItem({item, navigation}: props) {
   async function handleClickPodcast() {
-    navigation.navigate('Episodes', {
-      podcast: item,
-    });
+    navigation.navigate('Episodes', {podcast: item});
   }
   return (
     <TouchableOpacity style={styles.container} onPress={handleClickPodcast}>

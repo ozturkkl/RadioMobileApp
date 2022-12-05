@@ -5,7 +5,7 @@ import TrackPlayer, {State, Event, useTrackPlayerEvents} from 'react-native-trac
 
 import {safeWindowX, windowX} from '../../helpers/dimensions';
 import colors from '../../helpers/colors';
-import {currentPodcast, setupRadio} from '../../helpers/setupPlayer';
+import {currentPodcast, setupRadio, stopRadio} from '../../helpers/setupPlayer';
 
 export default function RadioPlayer() {
   const [trackPlaying, setTrackPlaying] = useState(false);
@@ -14,7 +14,7 @@ export default function RadioPlayer() {
     if (event.state === State.Playing && !currentPodcast) setTrackPlaying(true);
     else setTrackPlaying(false);
 
-    if (event.state === State.Connecting || event.state === State.Buffering || event.state === 'buffering') setLoading(true);
+    if (event.state === State.Connecting || event.state === State.Buffering) setLoading(true);
     else setLoading(false);
   });
   useEffect(() => {
@@ -39,10 +39,7 @@ export default function RadioPlayer() {
     }
   }
   async function handleStop() {
-    if (currentPodcast) {
-      await setupRadio();
-    }
-    await TrackPlayer.stop();
+    stopRadio();
   }
   async function handleReset() {
     await handleStop();

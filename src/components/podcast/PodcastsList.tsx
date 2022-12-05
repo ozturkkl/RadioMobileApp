@@ -4,12 +4,12 @@ import {safeWindowX} from '../../helpers/dimensions';
 
 import {fetchPodcastsFromCustomUrl} from '../../helpers/fetchRadioData';
 import {navigationProps} from '../../helpers/navigationSettings';
-import {podcast} from '../../helpers/types';
+import {Podcast} from '../../helpers/types';
 
 import PodcastItem from './PodcastItem';
 
 export default function PodcastsList({navigation}: navigationProps) {
-  const [podcasts, setPodcasts] = useState<podcast[]>([]);
+  const [podcasts, setPodcasts] = useState<Podcast[]>([]);
 
   useEffect(() => {
     fetchPodcastsFromCustomUrl(setPodcasts);

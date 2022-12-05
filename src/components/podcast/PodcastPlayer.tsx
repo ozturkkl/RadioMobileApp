@@ -8,18 +8,19 @@ import {safeWindowX, windowX} from '../../helpers/dimensions';
 import colors from '../../helpers/colors';
 import {currentPodcast} from '../../helpers/setupPlayer';
 
+export const SEEK_TIME = 15;
+
 export default function PodcastPlayer() {
   const [trackPlaying, setTrackPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   const {position, duration} = useProgress();
 
-  const SEEK_TIME = 15;
 
   useTrackPlayerEvents([Event.PlaybackState], async event => {
     if (event.state === State.Playing && currentPodcast) await setTrackPlaying(true);
     else await setTrackPlaying(false);
 
-    if (event.state === State.Connecting || event.state === State.Buffering || event.state === 'buffering') await setLoading(true);
+    if (event.state === State.Connecting || event.state === State.Buffering) await setLoading(true);
     else await setLoading(false);
   });
   useEffect(() => {

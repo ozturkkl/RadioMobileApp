@@ -1,20 +1,40 @@
-import TrackPlayer, {Capability} from 'react-native-track-player';
+import TrackPlayer, {AppKilledPlaybackBehavior, Capability} from 'react-native-track-player';
 import radio from '../../radioOptions';
-import {podcast} from './types';
+import {Podcast} from './types';
 
-TrackPlayer.updateOptions({
-  capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
-  compactCapabilities: [Capability.Play, Capability.Pause, Capability.Stop],
+export async function initializePlayer() {
+  await TrackPlayer.setupPlayer({waitForBuffer: true});
 
-  stopWithApp: true,
-  alwaysPauseOnInterruption: true,
-});
+  TrackPlayer.updateOptions({
+    capabilities: [
+      Capability.Play,
+      Capability.Pause,
+      Capability.Stop,
+      Capability.JumpForward,
+      Capability.JumpBackward,
+      Capability.SkipToNext,
+      Capability.SkipToPrevious,
+    ],
+    compactCapabilities: [
+      Capability.Play,
+      Capability.Pause,
+      Capability.Stop,
+      Capability.JumpForward,
+      Capability.JumpBackward,
+      Capability.SkipToNext,
+      Capability.SkipToPrevious,
+    ],
+    android: {
+      appKilledPlaybackBehavior: AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
+    },
+    alwaysPauseOnInterruption: true,
+  });
+}
 
-export let currentPodcast: podcast | null = null;
+export let currentPodcast: Podcast | null = null;
 
 export const setupRadio = async () => {
   currentPodcast = null;
-  await TrackPlayer.setupPlayer({waitForBuffer: true});
   await TrackPlayer.reset();
   await TrackPlayer.add([
     {
@@ -24,9 +44,12 @@ export const setupRadio = async () => {
     },
   ]);
 };
-export const setupPodcast = async (podcast: podcast, index?: number) => {
+export const stopRadio = async () => {
+  currentPodcast = null;
+  await TrackPlayer.reset();
+};
+export const setupPodcast = async (podcast: Podcast, index?: number) => {
   if (currentPodcast !== podcast) {
-    await TrackPlayer.setupPlayer({waitForBuffer: true});
     await TrackPlayer.reset();
 
     if (podcast.items) {

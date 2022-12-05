@@ -4,12 +4,12 @@ import TrackPlayer, {Event, useTrackPlayerEvents} from 'react-native-track-playe
 import {safeWindowX} from '../../helpers/dimensions';
 
 import {currentPodcast} from '../../helpers/setupPlayer';
-import {podcast} from '../../helpers/types';
+import {Podcast} from '../../helpers/types';
 
 import EpisodeItem from './EpisodeItem';
 
 interface prop {
-  podcast: podcast;
+  podcast: Podcast;
 }
 
 export default function EpisodeList({podcast}: prop) {

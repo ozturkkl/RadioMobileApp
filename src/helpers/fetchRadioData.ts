@@ -1,7 +1,7 @@
 import radioOptions from '../../radioOptions';
 import rssParse from '../helpers/rssParse';
 import {getData, setData} from './storage';
-import {podcast} from './types';
+import {Podcast} from './types';
 // import uuid from 'react-native-uuid';
 
 export const fetchStreamInfo = async (setAlbumCover: React.Dispatch<any>, setTrackArtist: React.Dispatch<any>, setTrackName: React.Dispatch<any>) => {
@@ -67,7 +67,7 @@ export const fetchPodcastsFromCastos = async (setPodcasts: React.Dispatch<any>) 
 };
 
 export const fetchPodcastsFromCustomUrl = async (setPodcasts: React.Dispatch<any>) => {
-  const podcasts: podcast[] = [];
+  const podcasts: Podcast[] = [];
   const rssData = await rssParse(radioOptions.PODCAST_RSS_FEED);
   rssData.items.forEach(item => {
     const podcast = podcasts.find(podcast => podcast.title === item.itunes.summary);
