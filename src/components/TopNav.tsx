@@ -29,7 +29,7 @@ export default function TopNav({navigation, type}: props) {
           if (type === 'Podcasts') navigation.navigate('Home');
           else navigation.navigate('Podcasts');
         }}>
-        <Icon name={type === 'Podcasts' || type === 'Episodes' ? 'arrow-left' : 'list'} style={styles.settingsIcon} />
+        <Icon name={type === 'Podcasts' || type === 'Episodes' ? 'arrow-left' : 'archive'} style={styles.settingsIcon} />
       </TouchableOpacity>
     </View>
   );
