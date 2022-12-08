@@ -1,34 +1,20 @@
-import React from 'react'
-import { ImageBackground, StyleSheet, View } from 'react-native'
-import TopBar from '../components/TopBar'
-import TrackDisplay from '../components/TrackDisplay'
-import radio from "../../radioOptions"
-import { navigationProps, navigationStyle } from "../helpers/navigationSettings"
-import PlayButton from '../components/PlayButton'
-import colors from '../helpers/colors'
-import VolumeControl from '../components/VolumeControl'
+import React from 'react';
+import TopNav from '../components/TopNav';
+import RadioTrackDisplay from '../components/radio/RadioTrackDisplay';
+import {navigationProps} from '../helpers/navigationSettings';
+import RadioPlayer from '../components/radio/RadioPlayer';
+import VolumeControl from '../components/VolumeControl';
+import Container from './Container';
 
-interface props extends navigationProps { }
+interface props extends navigationProps {}
 
-export default function MainPage({ navigation }: props) {
-    return (
-        <View style={{ flex: 1, backgroundColor: "#202020" }}>
-            <ImageBackground source={radio.BACKGROUND_IMG} resizeMode="cover" blurRadius={colors.backgroundBlur} style={{ flex: 1 }}>
-                <View style={styles.main}>
-                    <View style={styles.usableArea}>
-                        <TopBar navigation={navigation} />
-                        <TrackDisplay />
-                        <VolumeControl />
-                        <PlayButton />
-                    </View>
-                </View>
-            </ImageBackground>
-        </View>
-    )
+export default function Home({navigation}: props) {
+  return (
+    <Container>
+      <TopNav navigation={navigation} type="Home" />
+      <RadioTrackDisplay />
+      <VolumeControl />
+      <RadioPlayer />
+    </Container>
+  );
 }
-
-const styles = StyleSheet.create({
-    ...navigationStyle,
-})
-
-
