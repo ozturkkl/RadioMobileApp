@@ -31,10 +31,7 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
     <TouchableOpacity
       style={[styles.container, podcast.items.length - indexPlaying - 1 === index ? styles.playing : styles.container]}
       onPress={handleClickPodcast}>
-      <View style={[styles.logoContainer, styles.shadow]}>
-        <Image source={{uri: podcast.imageUrl}} style={{width: '100%', height: '100%'}} />
-      </View>
-
+      
       <View style={styles.descriptionContainer}>
         <Text numberOfLines={1} style={[styles.title, styles.textShadow]}>
           {episode.title}
@@ -43,7 +40,7 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
 
       <View style={styles.durationContainer}>
         <Text numberOfLines={1} style={[styles.title, styles.textShadow, styles.duration]}>
-          {episode.duration}
+          {episode.duration.split(':')[0]+' dk'}
         </Text>
       </View>
     </TouchableOpacity>
@@ -59,6 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: safeWindowX * 0.16 * 0.2,
     marginHorizontal: safeWindowX * 0.02,
     marginVertical: safeWindowX * 0.01,
+    padding: 16,
   },
   playing: {
     backgroundColor: '#ffffff66',
@@ -71,11 +69,11 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     flex: 1,
-    paddingHorizontal: safeWindowX * 0.03,
+    paddingHorizontal: safeWindowX * 0.001,
   },
   durationContainer: {
-    width: safeWindowX * 0.16,
-    paddingHorizontal: safeWindowX * 0.03,
+    width: safeWindowX * 0.09,
+    paddingHorizontal: safeWindowX * 0.001,
   },
   duration: {
     fontSize: safeWindowX * 0.035,
