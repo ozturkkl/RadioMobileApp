@@ -40,7 +40,7 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
 
       <View style={styles.durationContainer}>
         <Text numberOfLines={1} style={[styles.title, styles.textShadow, styles.duration]}>
-          {episode.duration.split(':')[0]+' dk'}
+          {episode.duration}
         </Text>
       </View>
     </TouchableOpacity>
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   },
   duration: {
     fontSize: safeWindowX * 0.035,
+    width: 50
   },
   title: {
     color: colors.mainText,

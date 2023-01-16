@@ -1,21 +1,35 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/Feather';
-import TrackPlayer, {State, Event, useTrackPlayerEvents, useProgress} from 'react-native-track-player';
+import TrackPlayer, { State, Event, useTrackPlayerEvents, useProgress } from 'react-native-track-player';
 
-import {safeWindowX, windowX} from '../../helpers/dimensions';
+import { safeWindowX, windowX } from '../../helpers/dimensions';
 import colors from '../../helpers/colors';
-import {currentPodcast} from '../../helpers/setupPlayer';
+import { currentPodcast } from '../../helpers/setupPlayer';
 
 export const SEEK_TIME = 15;
 
 export default function PodcastPlayer() {
   const [trackPlaying, setTrackPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
-  const {position, duration} = useProgress();
-
-
+  const { position, duration } = useProgress();
+  var rate = 1; //Needs improvement :)
+  function toHHMMSS(duration:string) {
+    var sec_num = parseInt(duration, 10);
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+  
+    var hourSeparator = ':';
+    var minuteSeparator = ':';
+  
+    if(hours == 0){hours = '';hourSeparator = '';}
+    if (minutes < 10 && hours != 0) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    var time = hours+hourSeparator+minutes+minuteSeparator+seconds;
+    return time;
+  }
   useTrackPlayerEvents([Event.PlaybackState], async event => {
     if (event.state === State.Playing && currentPodcast) await setTrackPlaying(true);
     else await setTrackPlaying(false);
@@ -52,14 +66,19 @@ export default function PodcastPlayer() {
   async function handleSeek(value: number) {
     await TrackPlayer.seekTo(value);
   }
+  async function handleSpeed() {
+    rate = await TrackPlayer.getRate();
+    {rate > 1 ?  rate = 1 : rate = 2}
+    await TrackPlayer.setRate(rate)
+  }
   return (
     <>
       <View style={styles.seekbarContainer}>
         <Text style={styles.position}>
-          {(position / 60 > 1 ? `${parseInt((position / 60).toString())}:` : '') + `${parseInt((position % 60).toString())}`}
+        {toHHMMSS(position.toString())}
         </Text>
         <Slider
-          style={{width: safeWindowX * 0.75, height: safeWindowX * 0.15}}
+          style={{ width: safeWindowX * 0.75, height: safeWindowX * 0.15 }}
           value={position}
           minimumValue={0}
           maximumValue={duration}
@@ -68,9 +87,15 @@ export default function PodcastPlayer() {
           onSlidingComplete={val => handleSeek(val)}
         />
         <Text style={styles.duration}>
-          {(duration / 60 > 1 ? `${parseInt((duration / 60).toString())}:` : '') + `${parseInt((duration % 60).toString())}`}
+          {toHHMMSS(duration.toString())}
         </Text>
       </View>
+      <TouchableOpacity onPress={handleSpeed}>
+          <Icon
+            name={ rate > 1 ? 'zap-off' : 'zap'}
+            style={styles.sideIcons}
+            />
+        </TouchableOpacity>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity onPress={handleSeekBackward} style={styles.buttonWrapper}>
           <Text style={[styles.skipNumber, styles.skipNumberLeft]}>{SEEK_TIME}</Text>
