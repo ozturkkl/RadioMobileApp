@@ -37,7 +37,7 @@ export default function TopNav({navigation, type}: props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: '10%',
+    paddingTop: safeWindowX * 0.06,
     height: '15%',
     width: '100%',
     flexDirection: 'row',

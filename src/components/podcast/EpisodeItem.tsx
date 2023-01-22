@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {State} from 'react-native-track-player';
 
 import colors from '../../helpers/colors';
@@ -31,7 +31,6 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
     <TouchableOpacity
       style={[styles.container, podcast.items.length - indexPlaying - 1 === index ? styles.playing : styles.container]}
       onPress={handleClickPodcast}>
-      
       <View style={styles.descriptionContainer}>
         <Text numberOfLines={1} style={[styles.title, styles.textShadow]}>
           {episode.title}
@@ -72,12 +71,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: safeWindowX * 0.001,
   },
   durationContainer: {
-    width: safeWindowX * 0.09,
+    width: safeWindowX * 0.142,
     paddingHorizontal: safeWindowX * 0.001,
   },
   duration: {
     fontSize: safeWindowX * 0.035,
-    width: 50
+    textAlign: 'right',
   },
   title: {
     color: colors.mainText,

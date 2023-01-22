@@ -1,35 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, ToastAndroid, TouchableOpacity, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/Feather';
-import TrackPlayer, { State, Event, useTrackPlayerEvents, useProgress } from 'react-native-track-player';
+import TrackPlayer, {State, Event, useTrackPlayerEvents, useProgress} from 'react-native-track-player';
 
-import { safeWindowX, windowX } from '../../helpers/dimensions';
+import {safeWindowX, windowX} from '../../helpers/dimensions';
 import colors from '../../helpers/colors';
-import { currentPodcast } from '../../helpers/setupPlayer';
+import {currentPodcast} from '../../helpers/setupPlayer';
+import {getData, setData} from '../../helpers/storage';
 
 export const SEEK_TIME = 15;
 
 export default function PodcastPlayer() {
   const [trackPlaying, setTrackPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { position, duration } = useProgress();
-  var rate = 1; //Needs improvement :)
-  function toHHMMSS(duration:string) {
-    var sec_num = parseInt(duration, 10);
-    var hours   = Math.floor(sec_num / 3600);
-    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-    var seconds = sec_num - (hours * 3600) - (minutes * 60);
-  
-    var hourSeparator = ':';
-    var minuteSeparator = ':';
-  
-    if(hours == 0){hours = '';hourSeparator = '';}
-    if (minutes < 10 && hours != 0) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    var time = hours+hourSeparator+minutes+minuteSeparator+seconds;
-    return time;
-  }
+  const {position, duration} = useProgress();
+  const [playRate, setPlayRate] = useState(1);
+
   useTrackPlayerEvents([Event.PlaybackState], async event => {
     if (event.state === State.Playing && currentPodcast) await setTrackPlaying(true);
     else await setTrackPlaying(false);
@@ -40,6 +27,7 @@ export default function PodcastPlayer() {
   useEffect(() => {
     TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing && !!currentPodcast));
   }, []);
+
   async function handlePlay() {
     const state = await TrackPlayer.getState();
 
@@ -54,7 +42,11 @@ export default function PodcastPlayer() {
     await TrackPlayer.skipToPrevious();
   }
   async function handleSkipNext() {
-    if ((await TrackPlayer.getCurrentTrack()) >= (await (await TrackPlayer.getQueue()).length) - 1) return;
+    const currentTrackIndex = await TrackPlayer.getCurrentTrack();
+    const trackCount = (await (await TrackPlayer.getQueue()).length) - 1;
+    if (currentTrackIndex && currentTrackIndex >= trackCount) {
+      return;
+    }
     await TrackPlayer.skipToNext();
   }
   async function handleSeekBackward() {
@@ -66,19 +58,35 @@ export default function PodcastPlayer() {
   async function handleSeek(value: number) {
     await TrackPlayer.seekTo(value);
   }
-  async function handleSpeed() {
-    rate = await TrackPlayer.getRate();
-    {rate > 1 ?  rate = 1 : rate = 2}
-    await TrackPlayer.setRate(rate)
+  async function handleSpeed(reset = false) {
+    if (!(await getData('playRateToastShown'))) {
+      ToastAndroid.showWithGravity('Normal hız için basılı tutunuz', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+      await setData('playRateToastShown', 'true');
+    }
+
+    let rate = await TrackPlayer.getRate();
+    rate + 0.25 > 3 ? (rate = 1) : (rate += 0.25);
+    if (reset) rate = 1;
+    await TrackPlayer.setRate(rate);
+    setPlayRate(rate);
+  }
+  function toHHMMSS(duration: string) {
+    const totalSeconds = parseInt(duration, 10);
+    let hours = Math.floor(totalSeconds / 3600);
+    let minutes = Math.floor((totalSeconds - hours * 3600) / 60);
+    let seconds = totalSeconds - hours * 3600 - minutes * 60;
+    const time =
+      hours > 0
+        ? `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+        : `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return time;
   }
   return (
     <>
       <View style={styles.seekbarContainer}>
-        <Text style={styles.position}>
-        {toHHMMSS(position.toString())}
-        </Text>
+        <Text style={styles.mainText}>{toHHMMSS(position.toString())}</Text>
         <Slider
-          style={{ width: safeWindowX * 0.75, height: safeWindowX * 0.15 }}
+          style={{width: safeWindowX * 0.6, height: safeWindowX * 0.15}}
           value={position}
           minimumValue={0}
           maximumValue={duration}
@@ -86,16 +94,12 @@ export default function PodcastPlayer() {
           maximumTrackTintColor="#FFFFFF"
           onSlidingComplete={val => handleSeek(val)}
         />
-        <Text style={styles.duration}>
-          {toHHMMSS(duration.toString())}
-        </Text>
-      </View>
-      <TouchableOpacity onPress={handleSpeed}>
-          <Icon
-            name={ rate > 1 ? 'zap-off' : 'zap'}
-            style={styles.sideIcons}
-            />
+        <Text style={styles.mainText}>{toHHMMSS(duration.toString())}</Text>
+        <TouchableOpacity onPress={() => handleSpeed()} onLongPress={() => handleSpeed(true)} style={styles.speedButton}>
+          <Icon name="zap" style={styles.mainText} />
+          <Text style={styles.mainText}>{playRate}x</Text>
         </TouchableOpacity>
+      </View>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity onPress={handleSeekBackward} style={styles.buttonWrapper}>
           <Text style={[styles.skipNumber, styles.skipNumberLeft]}>{SEEK_TIME}</Text>
@@ -123,18 +127,23 @@ export default function PodcastPlayer() {
 }
 
 const styles = StyleSheet.create({
+  mainText: {
+    color: colors.mainText,
+  },
   seekbarContainer: {
     flexDirection: 'row',
     width: windowX,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: colors.playButtonBackground,
+    paddingHorizontal: safeWindowX * 0.08,
   },
-  position: {
-    color: colors.mainText,
-  },
-  duration: {
-    color: colors.mainText,
+  speedButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: safeWindowX * 0.02,
+    width: safeWindowX * 0.18,
   },
   buttonsContainer: {
     flexDirection: 'row',
