@@ -16,7 +16,7 @@ export default function PodcastPlayer() {
   const [loading, setLoading] = useState(false);
   const {position, duration} = useProgress();
   const [playRate, setPlayRate] = useState(1);
-
+  
   useTrackPlayerEvents([Event.PlaybackState], async event => {
     if (event.state === State.Playing && currentPodcast) await setTrackPlaying(true);
     else await setTrackPlaying(false);
@@ -141,9 +141,9 @@ const styles = StyleSheet.create({
   speedButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     paddingVertical: safeWindowX * 0.02,
-    width: safeWindowX * 0.18,
+    width: safeWindowX * 0.10,
   },
   buttonsContainer: {
     flexDirection: 'row',
