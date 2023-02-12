@@ -35,6 +35,7 @@ export let currentPodcast: Podcast | null = null;
 
 export const setupRadio = async () => {
   currentPodcast = null;
+  await TrackPlayer.setRate(1);
   await TrackPlayer.reset();
   await TrackPlayer.add([
     {
