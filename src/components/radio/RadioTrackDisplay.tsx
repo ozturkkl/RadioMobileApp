@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Easing, Image, StyleSheet, Text, View} from 'react-native';
 import TextTicker from 'react-native-text-ticker';
 import colors from '../../helpers/colors';
-import radio from '../../../radioOptions';
 import LinksBar from '../LinksBar';
 import {safeWindowX} from '../../helpers/dimensions';
 import {fetchStreamInfo} from '../../helpers/fetchRadioData';
+import {radioOptions} from '../../../radioOptions';
 
 export default function RadioTrackDisplay() {
   const [albumCover, setAlbumCover] = useState('');
@@ -22,11 +22,11 @@ export default function RadioTrackDisplay() {
   return (
     <View style={styles.container}>
       <View style={styles.shadow}>
-        <Image style={styles.albumCover} defaultSource={radio.RADIO_ICON} source={!albumCover ? radio.RADIO_ICON : {uri: albumCover}} />
+        <Image style={styles.albumCover} defaultSource={radioOptions.RADIO_ICON} source={!albumCover ? radioOptions.RADIO_ICON : {uri: albumCover}} />
       </View>
       <LinksBar />
       <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.trackArtist, styles.textShadow]}>
-        {!trackArtist ? radio.RADIO_NAME : trackArtist}
+        {!trackArtist ? radioOptions.RADIO_NAME : trackArtist}
       </Text>
       <TextTicker
         easing={Easing.linear}

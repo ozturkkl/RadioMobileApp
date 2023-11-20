@@ -1,6 +1,6 @@
 import TrackPlayer, {AppKilledPlaybackBehavior, Capability} from 'react-native-track-player';
-import radio from '../../radioOptions';
 import {Podcast} from './types';
+import {radioOptions} from '../../radioOptions';
 
 export async function initializePlayer() {
   await TrackPlayer.setupPlayer({waitForBuffer: true});
@@ -41,7 +41,7 @@ export const setupRadio = async () => {
     {
       title: '',
       artist: '',
-      url: radio.RADIO_STREAM_URL,
+      url: radioOptions.RADIO_STREAM_URL,
     },
   ]);
 };

@@ -59,9 +59,9 @@ export default function PodcastPlayer() {
     await TrackPlayer.seekTo(value);
   }
   async function handleSpeed(reset = false) {
-    if (!(await getData('playRateToastShown'))) {
+    if (!(await getData('PLAYRATE_TOAST_SHOWN'))) {
       ToastAndroid.showWithGravity('Normal hız için basılı tutunuz', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-      await setData('playRateToastShown', 'true');
+      await setData('PLAYRATE_TOAST_SHOWN', true);
     }
 
     let rate = await TrackPlayer.getRate();

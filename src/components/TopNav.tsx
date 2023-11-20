@@ -1,10 +1,10 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import radio from '../../radioOptions';
 import {navigationProps} from '../helpers/navigationSettings';
 import colors from '../helpers/colors';
 import {safeWindowX} from '../helpers/dimensions';
+import {radioOptions} from '../../radioOptions';
 
 interface props extends navigationProps {
   type: string;
@@ -18,10 +18,10 @@ export default function TopNav({navigation, type}: props) {
         onPress={() => {
           navigation.navigate('Home');
         }}>
-        <Image source={radio.RADIO_ICON} style={{width: '100%', height: '100%'}} />
+        <Image source={radioOptions.RADIO_ICON} style={{width: '100%', height: '100%'}} />
       </TouchableOpacity>
 
-      <Text style={[styles.header, styles.textShadow]}>{type === 'Podcasts' || type === 'Episodes' ? 'Podcasts' : radio.RADIO_NAME}</Text>
+      <Text style={[styles.header, styles.textShadow]}>{type === 'Podcasts' || type === 'Episodes' ? 'Podcasts' : radioOptions.RADIO_NAME}</Text>
 
       <TouchableOpacity
         style={styles.settingsIconContainer}

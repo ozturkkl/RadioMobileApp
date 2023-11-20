@@ -7,12 +7,19 @@ import {navigationProps} from '../../helpers/navigationSettings';
 import {Podcast} from '../../helpers/types';
 
 import PodcastItem from './PodcastItem';
+import {getData} from '../../helpers/storage';
 
 export default function PodcastsList({navigation}: navigationProps) {
   const [podcasts, setPodcasts] = useState<Podcast[]>([]);
 
   useEffect(() => {
-    fetchPodcastsFromCustomUrl(setPodcasts);
+    getData('CACHED_PODCASTS').then(async data => {
+      if (data?.length) {
+        setPodcasts(data);
+      } else {
+        setPodcasts(await fetchPodcastsFromCustomUrl());
+      }
+    });
   }, []);
 
   return (
