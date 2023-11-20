@@ -16,7 +16,7 @@ export default function PodcastPlayer() {
   const [loading, setLoading] = useState(false);
   const {position, duration} = useProgress();
   const [playRate, setPlayRate] = useState(1);
-  
+
   useTrackPlayerEvents([Event.PlaybackState], async event => {
     if (event.state === State.Playing && currentPodcast) await setTrackPlaying(true);
     else await setTrackPlaying(false);
@@ -86,7 +86,7 @@ export default function PodcastPlayer() {
       <View style={styles.seekbarContainer}>
         <Text style={styles.mainText}>{toHHMMSS(position.toString())}</Text>
         <Slider
-          style={{width: safeWindowX * 0.6, height: safeWindowX * 0.15}}
+          style={styles.seekbar}
           value={position}
           minimumValue={0}
           maximumValue={duration}
@@ -138,12 +138,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.playButtonBackground,
     paddingHorizontal: safeWindowX * 0.08,
   },
+  seekbar: {
+    width: 0,
+    height: safeWindowX * 0.15,
+    flex: 1,
+  },
   speedButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingVertical: safeWindowX * 0.02,
-    width: safeWindowX * 0.10,
+    justifyContent: 'center',
+    paddingLeft: safeWindowX * 0.02,
+    width: safeWindowX * 0.18,
+    height: '100%',
   },
   buttonsContainer: {
     flexDirection: 'row',
