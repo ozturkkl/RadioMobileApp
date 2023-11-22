@@ -8,7 +8,7 @@ import {radioOptions} from '../../radioOptions';
 export default function LinksBar() {
   return (
     <View style={styles.linksContainer}>
-      {radioOptions.LINKS.map((link, idx) => (
+      {radioOptions.links.map((link, idx) => (
         <TouchableOpacity key={idx} onPress={link.click}>
           <Icon name={link.iconLabel} size={20} style={styles.linkIcon} color={colors.mainText} />
         </TouchableOpacity>

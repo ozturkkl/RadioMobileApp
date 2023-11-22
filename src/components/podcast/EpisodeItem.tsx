@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {State} from 'react-native-track-player';
 
 import colors from '../../helpers/colors';
 import {safeWindowX} from '../../helpers/dimensions';
 import {Episode, Podcast} from '../../helpers/types';
-import {currentPodcast, setupPodcast} from '../../helpers/setupPlayer';
-import global from '../../helpers/global';
+import {playingPodcastID, setupPodcast} from '../../helpers/setupPlayer';
+import {AppContext} from '../../helpers/state';
 
 interface props {
   podcast: Podcast;
@@ -16,15 +16,29 @@ interface props {
 }
 
 export default function EpisodeItem({episode, podcast, index, indexPlaying}: props) {
+  const {setAppState} = useContext(AppContext);
   async function handleClickPodcast() {
-    if (index === (await TrackPlayer.getCurrentTrack()) && (await TrackPlayer.getState()) === State.Playing && currentPodcast === podcast) return;
+    const currentTrackIndex = await TrackPlayer.getCurrentTrack();
+    const state = await TrackPlayer.getState();
+    // return if user clicks on the same episode
+    if (
+      currentTrackIndex !== null &&
+      index + currentTrackIndex === podcast.items.length - 1 &&
+      state === State.Playing &&
+      playingPodcastID === podcast.id
+    )
+      return;
 
     await setupPodcast({...podcast, items: [...podcast.items].reverse()}, podcast.items.length - index - 1);
 
     await TrackPlayer.play();
 
-    global.setPodcastPlaying.episodes?.(true);
-    global.setPodcastPlaying.podcasts?.(true);
+    setAppState(state => {
+      return {
+        ...state,
+        showPodcastPlayerControls: true,
+      };
+    });
   }
 
   return (

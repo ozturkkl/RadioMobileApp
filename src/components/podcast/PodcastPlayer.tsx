@@ -6,7 +6,7 @@ import TrackPlayer, {State, Event, useTrackPlayerEvents, useProgress} from 'reac
 
 import {safeWindowX, windowX} from '../../helpers/dimensions';
 import colors from '../../helpers/colors';
-import {currentPodcast} from '../../helpers/setupPlayer';
+import {playingPodcastID} from '../../helpers/setupPlayer';
 import {getData, setData} from '../../helpers/storage';
 
 export const SEEK_TIME = 15;
@@ -17,15 +17,16 @@ export default function PodcastPlayer() {
   const {position, duration} = useProgress();
   const [playRate, setPlayRate] = useState(1);
 
-  useTrackPlayerEvents([Event.PlaybackState], async event => {
-    if (event.state === State.Playing && currentPodcast) await setTrackPlaying(true);
-    else await setTrackPlaying(false);
+  useTrackPlayerEvents([Event.PlaybackState], event => {
+    if (event.state === State.Playing && playingPodcastID !== null) setTrackPlaying(true);
+    else setTrackPlaying(false);
 
-    if (event.state === State.Connecting || event.state === State.Buffering) await setLoading(true);
-    else await setLoading(false);
+    if (event.state === State.Connecting || event.state === State.Buffering) setLoading(true);
+    else setLoading(false);
   });
   useEffect(() => {
-    TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing && !!currentPodcast));
+    TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing && playingPodcastID !== null));
+    TrackPlayer.getRate().then(rate => setPlayRate(rate));
   }, []);
 
   async function handlePlay() {

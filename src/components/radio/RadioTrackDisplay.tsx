@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Easing, Image, StyleSheet, Text, View} from 'react-native';
 import TextTicker from 'react-native-text-ticker';
 import colors from '../../helpers/colors';
@@ -6,27 +6,42 @@ import LinksBar from '../LinksBar';
 import {safeWindowX} from '../../helpers/dimensions';
 import {fetchStreamInfo} from '../../helpers/fetchRadioData';
 import {radioOptions} from '../../../radioOptions';
+import {AppContext} from '../../helpers/state';
 
 export default function RadioTrackDisplay() {
   const [albumCover, setAlbumCover] = useState('');
   const [trackArtist, setTrackArtist] = useState('');
   const [trackName, setTrackName] = useState('');
+  const {appState} = useContext(AppContext);
   useEffect(() => {
-    const destroy = setInterval(() => {
-      fetchStreamInfo(setAlbumCover, setTrackArtist, setTrackName);
-    }, 1000);
+    // Runs immediately and then every 5 seconds with the return function and invoke itself trick.
+    const destroy = setInterval(
+      (function runFetchInfo() {
+        fetchStreamInfo(appState.selectedRadioIndex).then(radioInfo => {
+          setAlbumCover(radioInfo.cover);
+          setTrackArtist(radioInfo.artist);
+          setTrackName(radioInfo.title);
+        });
+        return runFetchInfo;
+      })(),
+      5000,
+    );
     return () => {
       clearInterval(destroy);
     };
-  }, []);
+  }, [appState.selectedRadioIndex]);
   return (
     <View style={styles.container}>
       <View style={styles.shadow}>
-        <Image style={styles.albumCover} defaultSource={radioOptions.RADIO_ICON} source={!albumCover ? radioOptions.RADIO_ICON : {uri: albumCover}} />
+        <Image
+          style={styles.albumCover}
+          defaultSource={radioOptions.radios[appState.selectedRadioIndex].image}
+          source={!albumCover ? radioOptions.radios[appState.selectedRadioIndex].image : {uri: albumCover}}
+        />
       </View>
       <LinksBar />
       <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.trackArtist, styles.textShadow]}>
-        {!trackArtist ? radioOptions.RADIO_NAME : trackArtist}
+        {!trackArtist ? radioOptions.radios[appState.selectedRadioIndex].image.title : trackArtist}
       </Text>
       <TextTicker
         easing={Easing.linear}

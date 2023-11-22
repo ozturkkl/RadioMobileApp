@@ -1,45 +1,44 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import TrackPlayer, {State, Event, useTrackPlayerEvents} from 'react-native-track-player';
 
 import {safeWindowX, windowX} from '../../helpers/dimensions';
 import colors from '../../helpers/colors';
-import {currentPodcast, setupRadio, stopRadio} from '../../helpers/setupPlayer';
+import {playingPodcastID, setupRadio, stopRadio} from '../../helpers/setupPlayer';
+import {AppContext} from '../../helpers/state';
 
 export default function RadioPlayer() {
   const [trackPlaying, setTrackPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
+  const {appState} = useContext(AppContext);
   useTrackPlayerEvents([Event.PlaybackState], async event => {
-    if (event.state === State.Playing && !currentPodcast) setTrackPlaying(true);
+    if (event.state === State.Playing && playingPodcastID === null) setTrackPlaying(true);
     else setTrackPlaying(false);
 
     if (event.state === State.Connecting || event.state === State.Buffering) setLoading(true);
     else setLoading(false);
   });
   useEffect(() => {
-    TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing && !currentPodcast));
+    TrackPlayer.getState().then(state => setTrackPlaying(state === State.Playing && playingPodcastID === null));
   }, []);
   async function handlePlay() {
     const state = await TrackPlayer.getState();
 
-    if (state !== State.Playing && state !== State.Paused) {
-      await setupRadio();
+    if ((state !== State.Playing && state !== State.Paused) || playingPodcastID !== null) {
+      await setupRadio(appState.selectedRadioIndex);
+      await TrackPlayer.play();
+      return;
     }
 
     if (state === State.Playing) {
       await TrackPlayer.pause();
-    } else {
-      await TrackPlayer.play();
-    }
-
-    if (currentPodcast) {
-      await setupRadio();
+    } else if (state === State.Paused) {
       await TrackPlayer.play();
     }
   }
   async function handleStop() {
-    stopRadio();
+    return stopRadio();
   }
   async function handleReset() {
     await handleStop();

@@ -24,7 +24,7 @@ export default function PodcastsList({navigation}: navigationProps) {
 
   return (
     <View style={styles.container}>
-      <FlatList data={podcasts} renderItem={(podcast: any) => <PodcastItem item={podcast.item} navigation={navigation} />} />
+      <FlatList data={podcasts} renderItem={renderItemInfo => <PodcastItem item={renderItemInfo.item} navigation={navigation} />} />
     </View>
   );
 }

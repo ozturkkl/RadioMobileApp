@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import TrackPlayer, {Event, useTrackPlayerEvents} from 'react-native-track-player';
 import {safeWindowX} from '../../helpers/dimensions';
 
-import {currentPodcast} from '../../helpers/setupPlayer';
+import {playingPodcastID} from '../../helpers/setupPlayer';
 import {Podcast} from '../../helpers/types';
 
 import EpisodeItem from './EpisodeItem';
@@ -15,9 +15,9 @@ interface prop {
 export default function EpisodeList({podcast}: prop) {
   const [indexPlaying, setIndexPlaying] = useState(-1);
 
-  function podcastActive() {
-    return currentPodcast?.title === podcast.title && currentPodcast.description === podcast.description;
-  }
+  const podcastActive = useCallback(() => {
+    return playingPodcastID === podcast.id;
+  }, [podcast]);
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
     if (podcastActive()) setIndexPlaying(event.nextTrack);
@@ -26,10 +26,10 @@ export default function EpisodeList({podcast}: prop) {
   useEffect(() => {
     if (podcastActive()) {
       TrackPlayer.getCurrentTrack().then(track => {
-        setIndexPlaying(track);
+        if (track) setIndexPlaying(track);
       });
     }
-  }, []);
+  }, [podcastActive]);
 
   return (
     <View style={styles.container}>

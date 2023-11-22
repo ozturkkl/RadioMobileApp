@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Podcast} from './types';
+import {AppState, Podcast} from './types';
 
 export interface AppSettings {
   VOLUME: number;
   PLAYRATE_TOAST_SHOWN: boolean;
   CACHED_PODCASTS: Podcast[];
+  APP_STATE: Partial<AppState>;
 }
 
 type setDataTypes = keyof AppSettings;

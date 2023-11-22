@@ -2,19 +2,17 @@ import {getPodcastsFromRSSFeed, radioOptions} from '../../radioOptions';
 import {setData} from './storage';
 // import uuid from 'react-native-uuid';
 
-export const fetchStreamInfo = async (setAlbumCover: React.Dispatch<any>, setTrackArtist: React.Dispatch<any>, setTrackName: React.Dispatch<any>) => {
+export const fetchStreamInfo = async (selectedRadioIndex: number): Promise<{cover: string; artist: string; title: string}> => {
   try {
-    let res = await (await fetch(radioOptions.RADIO_STREAM_TRACK_INFO_URL)).json();
-    setAlbumCover(res.cover);
-    setTrackArtist(res.artist);
-    setTrackName(res.title);
+    return (await fetch(radioOptions.radios[selectedRadioIndex].trackInfoUrl)).json();
   } catch (error) {
     console.error(error);
+    return {cover: '', artist: '', title: ''};
   }
 };
 
 export const fetchPodcastsFromCustomUrl = async () => {
-  const podcasts = await getPodcastsFromRSSFeed(radioOptions.PODCAST_RSS_FEED);
+  const podcasts = await getPodcastsFromRSSFeed(radioOptions.podcastRSSFeed);
   setData('CACHED_PODCASTS', podcasts);
   return podcasts;
 };
