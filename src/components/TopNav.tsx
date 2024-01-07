@@ -1,27 +1,48 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import radio from '../../radioOptions';
 import {navigationProps} from '../helpers/navigationSettings';
 import colors from '../helpers/colors';
 import {safeWindowX} from '../helpers/dimensions';
+import {radioOptions} from '../../radioOptions';
+import {AppContext} from '../helpers/state';
+import {setupRadio} from '../helpers/setupPlayer';
+import TrackPlayer, {State} from 'react-native-track-player';
 
 interface props extends navigationProps {
   type: string;
 }
 
 export default function TopNav({navigation, type}: props) {
+  const {appState, setAppState} = useContext(AppContext);
+  const changeStations = () => {
+    setAppState(state => {
+      const newRadioIndex = (state.selectedRadioIndex + 1) % radioOptions.radios.length;
+      TrackPlayer.getState().then(async state => {
+        await setupRadio(newRadioIndex);
+        if (state === State.Playing) TrackPlayer.play();
+      });
+      return {...appState, selectedRadioIndex: newRadioIndex};
+    });
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={[styles.logoContainer, styles.shadow]}
         onPress={() => {
+          if (type === 'Home') {
+            changeStations();
+            return;
+          }
           navigation.navigate('Home');
         }}>
-        <Image source={radio.RADIO_ICON} style={{width: '100%', height: '100%'}} />
+        <Image source={radioOptions.radios[appState.selectedRadioIndex].image} style={{width: '100%', height: '100%'}} />
       </TouchableOpacity>
 
-      <Text style={[styles.header, styles.textShadow]}>{type === 'Podcasts' || type === 'Episodes' ? 'Podcasts' : radio.RADIO_NAME}</Text>
+      <Text style={[styles.header, styles.textShadow]}>
+        {type === 'Podcasts' || type === 'Episodes' ? 'Podcasts' : radioOptions.radios[appState.selectedRadioIndex].title}
+      </Text>
 
       <TouchableOpacity
         style={styles.settingsIconContainer}
@@ -37,6 +58,7 @@ export default function TopNav({navigation, type}: props) {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: safeWindowX * 0.06,
     height: '15%',
     width: '100%',
     flexDirection: 'row',

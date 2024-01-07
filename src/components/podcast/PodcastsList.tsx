@@ -7,17 +7,24 @@ import {navigationProps} from '../../helpers/navigationSettings';
 import {Podcast} from '../../helpers/types';
 
 import PodcastItem from './PodcastItem';
+import {getData} from '../../helpers/storage';
 
 export default function PodcastsList({navigation}: navigationProps) {
   const [podcasts, setPodcasts] = useState<Podcast[]>([]);
 
   useEffect(() => {
-    fetchPodcastsFromCustomUrl(setPodcasts);
+    getData('CACHED_PODCASTS').then(async data => {
+      if (data?.length) {
+        setPodcasts(data);
+      } else {
+        setPodcasts(await fetchPodcastsFromCustomUrl());
+      }
+    });
   }, []);
 
   return (
     <View style={styles.container}>
-      <FlatList data={podcasts} renderItem={(podcast: any) => <PodcastItem item={podcast.item} navigation={navigation} />} />
+      <FlatList data={podcasts} renderItem={renderItemInfo => <PodcastItem item={renderItemInfo.item} navigation={navigation} />} />
     </View>
   );
 }

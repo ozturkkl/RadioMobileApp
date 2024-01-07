@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import radio from '../../radioOptions';
 import Icon from 'react-native-vector-icons/Feather';
 import colors from '../helpers/colors';
 import {safeWindowX} from '../helpers/dimensions';
+import {radioOptions} from '../../radioOptions';
 
 export default function LinksBar() {
   return (
     <View style={styles.linksContainer}>
-      {radio.LINKS.map((link, idx) => (
+      {radioOptions.links.map((link, idx) => (
         <TouchableOpacity key={idx} onPress={link.click}>
           <Icon name={link.iconLabel} size={20} style={styles.linkIcon} color={colors.mainText} />
         </TouchableOpacity>

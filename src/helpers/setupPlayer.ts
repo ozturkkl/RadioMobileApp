@@ -1,6 +1,6 @@
 import TrackPlayer, {AppKilledPlaybackBehavior, Capability} from 'react-native-track-player';
-import radio from '../../radioOptions';
 import {Podcast} from './types';
+import {radioOptions} from '../../radioOptions';
 
 export async function initializePlayer() {
   await TrackPlayer.setupPlayer({waitForBuffer: true});
@@ -31,25 +31,26 @@ export async function initializePlayer() {
   });
 }
 
-export let currentPodcast: Podcast | null = null;
+export let playingPodcastID: string | null;
 
-export const setupRadio = async () => {
-  currentPodcast = null;
+export const setupRadio = async (selectedRadioIndex: number) => {
+  playingPodcastID = null;
+  await TrackPlayer.setRate(1);
   await TrackPlayer.reset();
   await TrackPlayer.add([
     {
       title: '',
       artist: '',
-      url: radio.RADIO_STREAM_URL,
+      url: radioOptions.radios[selectedRadioIndex].streamUrl,
     },
   ]);
 };
 export const stopRadio = async () => {
-  currentPodcast = null;
+  playingPodcastID = null;
   await TrackPlayer.reset();
 };
 export const setupPodcast = async (podcast: Podcast, index?: number) => {
-  if (currentPodcast !== podcast) {
+  if (playingPodcastID !== podcast.id) {
     await TrackPlayer.reset();
 
     if (podcast.items) {
@@ -65,7 +66,7 @@ export const setupPodcast = async (podcast: Podcast, index?: number) => {
     }
   }
 
-  currentPodcast = podcast;
+  playingPodcastID = podcast.id;
 
   if (index !== undefined) {
     await TrackPlayer.getQueue();

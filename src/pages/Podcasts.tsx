@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 
 import TopBar from '../components/TopNav';
 import PodcastsList from '../components/podcast/PodcastsList';
@@ -6,21 +6,24 @@ import Container from './Container';
 
 import {navigationProps} from '../helpers/navigationSettings';
 import PodcastPlayer from '../components/podcast/PodcastPlayer';
-import {currentPodcast} from '../helpers/setupPlayer';
-import global from '../helpers/global';
+import {AppContext} from '../helpers/state';
+import {playingPodcastID} from '../helpers/setupPlayer';
 
 interface props extends navigationProps {}
 
 export default function Podcasts({navigation}: props) {
-  const [podcastPlaying, setPodcastPlaying] = useState(!!currentPodcast);
-
-  global.setPodcastPlaying.podcasts = setPodcastPlaying;
+  const {appState, setAppState} = useContext(AppContext);
+  useEffect(() => {
+    if (playingPodcastID === null) {
+      setAppState(state => ({...state, showPodcastPlayerControls: false}));
+    }
+  }, [setAppState]);
 
   return (
     <Container>
       <TopBar navigation={navigation} type="Podcasts" />
       <PodcastsList navigation={navigation} />
-      {podcastPlaying ? <PodcastPlayer /> : <></>}
+      {appState.showPodcastPlayerControls ? <PodcastPlayer /> : <></>}
     </Container>
   );
 }

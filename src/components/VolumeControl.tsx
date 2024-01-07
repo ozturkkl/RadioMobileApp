@@ -13,10 +13,10 @@ export default function VolumeControl() {
   const [muted, setMuted] = useState(false);
 
   useEffect(() => {
-    getData('volume').then(data => {
+    getData('VOLUME').then(data => {
       if (data) {
-        setVolume(parseFloat(data));
-        changeVolume(parseFloat(data));
+        setVolume(data);
+        changeVolume(data);
       }
     });
   }, []);
@@ -24,6 +24,7 @@ export default function VolumeControl() {
   useEffect(() => changeVolume(volume), [volume]);
   useEffect(() => {
     muted ? TrackPlayer.setVolume(0) : TrackPlayer.setVolume(volume);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [muted]);
 
   useTrackPlayerEvents([Event.PlaybackState], async event => {
@@ -34,14 +35,14 @@ export default function VolumeControl() {
     TrackPlayer.setVolume(newVol);
     newVol === 0 ? setMuted(true) : setMuted(false);
     setVolumeIcon(newVol < 0.3 ? 'volume' : newVol < 0.7 ? 'volume-1' : 'volume-2');
-    setData('volume', newVol.toString());
+    setData('VOLUME', newVol);
   }
 
   return (
     <View style={styles.volumeSliderWrapper}>
       <TouchableOpacity
         onPress={() => {
-          setMuted(value => {
+          setMuted((value: boolean) => {
             return !value;
           });
         }}>
@@ -54,7 +55,7 @@ export default function VolumeControl() {
         maximumValue={1}
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#FFFFFF"
-        onValueChange={val => setVolume(val)}
+        onValueChange={(val: number) => setVolume(val)}
       />
     </View>
   );
