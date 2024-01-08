@@ -7,6 +7,7 @@ import {safeWindowX} from '../../helpers/dimensions';
 import {fetchStreamInfo} from '../../helpers/fetchRadioData';
 import {radioOptions} from '../../../radioOptions';
 import {AppContext} from '../../helpers/state';
+import {globalStyles} from '../../helpers/styles';
 
 export default function RadioTrackDisplay() {
   const [albumCover, setAlbumCover] = useState('');
@@ -32,7 +33,7 @@ export default function RadioTrackDisplay() {
   }, [appState.selectedRadioIndex]);
   return (
     <View style={styles.container}>
-      <View style={styles.shadow}>
+      <View style={globalStyles.shadow}>
         <Image
           style={styles.albumCover}
           defaultSource={radioOptions.radios[appState.selectedRadioIndex].image}
@@ -40,7 +41,7 @@ export default function RadioTrackDisplay() {
         />
       </View>
       <LinksBar />
-      <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.trackArtist, styles.textShadow]}>
+      <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.trackArtist, globalStyles.textShadow]}>
         {!trackArtist ? radioOptions.radios[appState.selectedRadioIndex].image.title : trackArtist}
       </Text>
       <TextTicker
@@ -51,7 +52,7 @@ export default function RadioTrackDisplay() {
         marqueeDelay={1000}
         repeatSpacer={50}
         scrollSpeed={50}
-        style={[styles.trackName, styles.textShadow]}>
+        style={[styles.trackName, globalStyles.textShadow]}>
         {trackName}
       </TextTicker>
     </View>
@@ -70,26 +71,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: colors.albumCoverBorder,
     borderWidth: 3,
-  },
-  shadow: {
-    shadowColor: colors.shadowColor,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10,
-    borderRadius: 10,
-  },
-  textShadow: {
-    textShadowColor: colors.shadowColor,
-    textShadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    textShadowRadius: 10,
   },
   trackArtist: {
     marginTop: safeWindowX * 0.035,

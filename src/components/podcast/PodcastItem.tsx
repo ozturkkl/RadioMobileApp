@@ -5,6 +5,7 @@ import colors from '../../helpers/colors';
 import {safeWindowX} from '../../helpers/dimensions';
 import {Podcast} from '../../helpers/types';
 import {navigationProps} from '../../helpers/navigationSettings';
+import {globalStyles} from '../../helpers/styles';
 
 interface props extends navigationProps {
   item: Podcast;
@@ -16,15 +17,15 @@ export default function PodcastItem({item, navigation}: props) {
   }
   return (
     <TouchableOpacity style={styles.container} onPress={handleClickPodcast}>
-      <View style={[styles.logoContainer, styles.shadow]}>
+      <View style={[styles.logoContainer, globalStyles.shadow]}>
         <Image source={{uri: item.imageUrl}} style={{width: '100%', height: '100%'}} />
       </View>
 
       <View style={styles.descriptionContainer}>
-        <Text numberOfLines={1} style={[styles.title, styles.textShadow]}>
+        <Text numberOfLines={1} style={[styles.title, globalStyles.textShadow]}>
           {item.title}
         </Text>
-        <Text numberOfLines={2} style={[styles.description, styles.textShadow]}>
+        <Text numberOfLines={2} style={[styles.description, globalStyles.textShadow]}>
           {item.description}
         </Text>
       </View>
@@ -59,24 +60,5 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.mainText,
-  },
-  shadow: {
-    shadowColor: colors.shadowColor,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10,
-  },
-  textShadow: {
-    textShadowColor: colors.shadowColor,
-    textShadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    textShadowRadius: 20,
   },
 });

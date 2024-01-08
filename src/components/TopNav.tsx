@@ -1,46 +1,34 @@
 import React, {useContext} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {navigationProps} from '../helpers/navigationSettings';
 import colors from '../helpers/colors';
 import {safeWindowX} from '../helpers/dimensions';
 import {radioOptions} from '../../radioOptions';
 import {AppContext} from '../helpers/state';
-import {setupRadio} from '../helpers/setupPlayer';
-import TrackPlayer, {State} from 'react-native-track-player';
+import {globalStyles} from '../helpers/styles';
+import RadioSwitchIcon from './radio/RadioSwitchIcon';
 
 interface props extends navigationProps {
   type: string;
 }
 
 export default function TopNav({navigation, type}: props) {
-  const {appState, setAppState} = useContext(AppContext);
-  const changeStations = () => {
-    setAppState(state => {
-      const newRadioIndex = (state.selectedRadioIndex + 1) % radioOptions.radios.length;
-      TrackPlayer.getState().then(async state => {
-        await setupRadio(newRadioIndex);
-        if (state === State.Playing) TrackPlayer.play();
-      });
-      return {...appState, selectedRadioIndex: newRadioIndex};
-    });
-  };
+  const {appState} = useContext(AppContext);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={[styles.logoContainer, styles.shadow]}
-        onPress={() => {
-          if (type === 'Home') {
-            changeStations();
-            return;
-          }
-          navigation.navigate('Home');
-        }}>
-        <Image source={radioOptions.radios[appState.selectedRadioIndex].image} style={{width: '100%', height: '100%'}} />
-      </TouchableOpacity>
+      {type !== 'Home' ? (
+        <RadioSwitchIcon
+          onClick={() => {
+            navigation.navigate('Home');
+          }}
+        />
+      ) : (
+        <RadioSwitchIcon />
+      )}
 
-      <Text style={[styles.header, styles.textShadow]}>
+      <Text style={[styles.header, globalStyles.textShadow]}>
         {type === 'Podcasts' || type === 'Episodes' ? 'Podcasts' : radioOptions.radios[appState.selectedRadioIndex].title}
       </Text>
 
@@ -88,24 +76,5 @@ const styles = StyleSheet.create({
   settingsIcon: {
     fontSize: safeWindowX * 0.11,
     color: colors.mainText,
-  },
-  shadow: {
-    shadowColor: colors.shadowColor,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10,
-  },
-  textShadow: {
-    textShadowColor: colors.shadowColor,
-    textShadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    textShadowRadius: 20,
   },
 });

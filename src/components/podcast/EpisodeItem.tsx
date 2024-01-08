@@ -7,6 +7,7 @@ import {safeWindowX} from '../../helpers/dimensions';
 import {Episode, Podcast} from '../../helpers/types';
 import {playingPodcastID, setupPodcast} from '../../helpers/setupPlayer';
 import {AppContext} from '../../helpers/state';
+import {globalStyles} from '../../helpers/styles';
 
 interface props {
   podcast: Podcast;
@@ -46,13 +47,13 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
       style={[styles.container, podcast.items.length - indexPlaying - 1 === index ? styles.playing : styles.container]}
       onPress={handleClickPodcast}>
       <View style={styles.descriptionContainer}>
-        <Text numberOfLines={1} style={[styles.title, styles.textShadow]}>
+        <Text numberOfLines={1} style={[styles.title, globalStyles.textShadow]}>
           {episode.title}
         </Text>
       </View>
 
       <View style={styles.durationContainer}>
-        <Text numberOfLines={1} style={[styles.title, styles.textShadow, styles.duration]}>
+        <Text numberOfLines={1} style={[styles.title, globalStyles.textShadow, styles.duration]}>
           {episode.duration}
         </Text>
       </View>
@@ -96,24 +97,5 @@ const styles = StyleSheet.create({
     color: colors.mainText,
     fontSize: safeWindowX * 0.05,
     marginBottom: safeWindowX * 0.004,
-  },
-  shadow: {
-    shadowColor: colors.shadowColor,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-
-    elevation: 10,
-  },
-  textShadow: {
-    textShadowColor: colors.shadowColor,
-    textShadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    textShadowRadius: 20,
   },
 });
