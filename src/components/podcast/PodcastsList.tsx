@@ -1,26 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {safeWindowX} from '../../helpers/dimensions';
 
-import {fetchPodcastsFromCustomUrl} from '../../helpers/fetchRadioData';
 import {navigationProps} from '../../helpers/navigationSettings';
 import {Podcast} from '../../helpers/types';
 
 import PodcastItem from './PodcastItem';
-import {getData} from '../../helpers/storage';
+import {AppContext} from '../../helpers/state';
 
 export default function PodcastsList({navigation}: navigationProps) {
   const [podcasts, setPodcasts] = useState<Podcast[]>([]);
+  const {appState} = useContext(AppContext);
 
   useEffect(() => {
-    getData('CACHED_PODCASTS').then(async data => {
-      if (data?.length) {
-        setPodcasts(data);
-      } else {
-        setPodcasts(await fetchPodcastsFromCustomUrl());
-      }
-    });
-  }, []);
+    if (appState.cachedPodcasts.length > 0) {
+      setPodcasts(appState.cachedPodcasts);
+    }
+  }, [appState.cachedPodcasts]);
 
   return (
     <View style={styles.container}>

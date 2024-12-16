@@ -1,42 +1,33 @@
 import Slider from '@react-native-community/slider';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import TrackPlayer, {Event, State, useTrackPlayerEvents} from 'react-native-track-player';
 import colors from '../helpers/colors';
 import {safeWindowX} from '../helpers/dimensions';
-import {getData, setData} from '../helpers/storage';
+import {AppContext} from '../helpers/state';
 
 export default function VolumeControl() {
-  const [volume, setVolume] = useState(1);
+  const {appState, setAppState} = useContext(AppContext);
   const [volumeIcon, setVolumeIcon] = useState('volume-2');
   const [muted, setMuted] = useState(false);
 
   useEffect(() => {
-    getData('VOLUME').then(data => {
-      if (data) {
-        setVolume(data);
-        changeVolume(data);
-      }
-    });
-  }, []);
+    if (appState.volume) {
+      TrackPlayer.setVolume(appState.volume);
+      appState.volume === 0 ? setMuted(true) : setMuted(false);
+      setVolumeIcon(appState.volume < 0.3 ? 'volume' : appState.volume < 0.7 ? 'volume-1' : 'volume-2');
+    }
+  }, [appState.volume]);
 
-  useEffect(() => changeVolume(volume), [volume]);
   useEffect(() => {
-    muted ? TrackPlayer.setVolume(0) : TrackPlayer.setVolume(volume);
+    muted ? TrackPlayer.setVolume(0) : TrackPlayer.setVolume(appState.volume);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [muted]);
 
   useTrackPlayerEvents([Event.PlaybackState], async event => {
-    if (event.state === State.Playing) TrackPlayer.setVolume(volume);
+    if (event.state === State.Playing) TrackPlayer.setVolume(appState.volume);
   });
-
-  function changeVolume(newVol: number) {
-    TrackPlayer.setVolume(newVol);
-    newVol === 0 ? setMuted(true) : setMuted(false);
-    setVolumeIcon(newVol < 0.3 ? 'volume' : newVol < 0.7 ? 'volume-1' : 'volume-2');
-    setData('VOLUME', newVol);
-  }
 
   return (
     <View style={styles.volumeSliderWrapper}>
@@ -50,12 +41,14 @@ export default function VolumeControl() {
       </TouchableOpacity>
       <Slider
         style={{width: safeWindowX * 0.75, height: safeWindowX * 0.15}}
-        value={muted ? 0 : volume}
+        value={muted ? 0 : appState.volume}
         minimumValue={0}
         maximumValue={1}
         minimumTrackTintColor="#FFFFFF"
         maximumTrackTintColor="#FFFFFF"
-        onValueChange={(val: number) => setVolume(val)}
+        onValueChange={(val: number) => {
+          setAppState({volume: val});
+        }}
       />
     </View>
   );

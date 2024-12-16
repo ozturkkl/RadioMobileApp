@@ -37,7 +37,9 @@ export default function RadioTrackDisplay() {
         <Image
           style={styles.albumCover}
           defaultSource={radioOptions.radios[appState.selectedRadioIndex].image}
-          source={!albumCover ? radioOptions.radios[appState.selectedRadioIndex].image : {uri: albumCover}}
+          source={
+            !albumCover ? radioOptions.radios[appState.selectedRadioIndex].image : typeof albumCover === 'string' ? {uri: albumCover} : albumCover
+          }
         />
       </View>
       <LinksBar />

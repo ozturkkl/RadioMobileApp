@@ -18,28 +18,34 @@ export default function TopNav({navigation, type}: props) {
 
   return (
     <View style={styles.container}>
-      {type !== 'Home' ? (
-        <RadioSwitchIcon
-          onClick={() => {
-            navigation.navigate('Home');
-          }}
-        />
-      ) : (
+      {type === 'Home' ? (
         <RadioSwitchIcon />
+      ) : (
+        <TouchableOpacity
+          style={styles.settingsIconContainer}
+          onPress={() => {
+            if (type === 'Podcasts') navigation.navigate('Home');
+            else navigation.navigate('Podcasts');
+          }}>
+          <Icon name="arrow-left" style={styles.settingsIcon} />
+        </TouchableOpacity>
       )}
 
       <Text style={[styles.header, globalStyles.textShadow]}>
         {type === 'Podcasts' || type === 'Episodes' ? 'Podcasts' : radioOptions.radios[appState.selectedRadioIndex].title}
       </Text>
 
-      <TouchableOpacity
-        style={styles.settingsIconContainer}
-        onPress={() => {
-          if (type === 'Podcasts') navigation.navigate('Home');
-          else navigation.navigate('Podcasts');
-        }}>
-        <Icon name={type === 'Podcasts' || type === 'Episodes' ? 'arrow-left' : 'archive'} style={styles.settingsIcon} />
-      </TouchableOpacity>
+      {type === 'Home' ? (
+        <TouchableOpacity
+          style={styles.settingsIconContainer}
+          onPress={() => {
+            navigation.navigate('Podcasts');
+          }}>
+          <Icon name="list" style={styles.settingsIcon} />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.settingsIconContainer} />
+      )}
     </View>
   );
 }

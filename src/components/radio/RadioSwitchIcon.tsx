@@ -42,7 +42,7 @@ export default function RadioSwitchIcon({onClick}: {onClick?: () => void}) {
           if (state === State.Playing) TrackPlayer.play();
         });
 
-        return {...appState, selectedRadioIndex: newRadioIndex};
+        return {selectedRadioIndex: newRadioIndex};
       });
 
       Animated.timing(pan, {

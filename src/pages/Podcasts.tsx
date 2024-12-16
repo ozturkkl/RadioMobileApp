@@ -15,7 +15,7 @@ export default function Podcasts({navigation}: props) {
   const {appState, setAppState} = useContext(AppContext);
   useEffect(() => {
     if (playingPodcastID === null) {
-      setAppState(state => ({...state, showPodcastPlayerControls: false}));
+      setAppState({showPodcastPlayerControls: false});
     }
   }, [setAppState]);
 

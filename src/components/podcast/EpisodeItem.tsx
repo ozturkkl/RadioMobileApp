@@ -34,11 +34,8 @@ export default function EpisodeItem({episode, podcast, index, indexPlaying}: pro
 
     await TrackPlayer.play();
 
-    setAppState(state => {
-      return {
-        ...state,
-        showPodcastPlayerControls: true,
-      };
+    setAppState({
+      showPodcastPlayerControls: true,
     });
   }
 

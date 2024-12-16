@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, ToastAndroid, TouchableOpacity, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/Feather';
@@ -7,7 +7,7 @@ import TrackPlayer, {State, Event, useTrackPlayerEvents, useProgress} from 'reac
 import {safeWindowX, windowX} from '../../helpers/dimensions';
 import colors from '../../helpers/colors';
 import {playingPodcastID} from '../../helpers/setupPlayer';
-import {getData, setData} from '../../helpers/storage';
+import {AppContext} from '../../helpers/state';
 
 export const SEEK_TIME = 15;
 
@@ -16,6 +16,7 @@ export default function PodcastPlayer() {
   const [loading, setLoading] = useState(false);
   const {position, duration} = useProgress();
   const [playRate, setPlayRate] = useState(1);
+  const {appState, setAppState} = useContext(AppContext);
 
   useTrackPlayerEvents([Event.PlaybackState], event => {
     if (event.state === State.Playing && playingPodcastID !== null) setTrackPlaying(true);
@@ -60,9 +61,9 @@ export default function PodcastPlayer() {
     await TrackPlayer.seekTo(value);
   }
   async function handleSpeed(reset = false) {
-    if (!(await getData('PLAYRATE_TOAST_SHOWN'))) {
+    if (!appState.playrateToastShown) {
       ToastAndroid.showWithGravity('Normal hız için basılı tutunuz', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-      await setData('PLAYRATE_TOAST_SHOWN', true);
+      setAppState({playrateToastShown: true});
     }
 
     let rate = await TrackPlayer.getRate();

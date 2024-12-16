@@ -12,8 +12,3 @@ export interface Episode {
   url: string;
   duration: string;
 }
-
-export interface AppState {
-  selectedRadioIndex: number;
-  showPodcastPlayerControls: true | false;
-}
